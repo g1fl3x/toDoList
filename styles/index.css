@@ -1,0 +1,102 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: rgb(39,39,39);
+    color: rgb(148, 148, 148);
+    font-size: 20px;
+    font-family: monospace;
+}
+
+img {
+    height: 24px;
+    width: 24px;
+}
+
+button, input {
+    background-color: rgb(54,54,54);
+    color:rgb(148, 148, 148);
+    border: 1px solid rgb(54,54,54);
+    border-radius: 2px;
+    height: 24px;
+    padding: 5px;
+}
+
+h1 {
+    margin: 10px 0;
+    margin-bottom: 50px;
+}
+
+a {text-decoration: none; color:rgb(148, 148, 148)}
+a:link { text-decoration: none; } 
+a:visited { text-decoration: none; } 
+a:active { text-decoration: none; }
+a:hover { text-decoration: underline; } 
+
+#input-search {
+    margin: 10px 20px;
+}
+
+#selected-page {
+    background-color: rgb(54,54,54);
+}
+
+.centered {
+    margin: auto;
+    width: 1200px;
+    text-align: center;
+}
+
+.checkbox {
+    margin: 0 5px;
+}
+
+.search {
+    display: flex;
+    flex-direction: column;
+}
+
+.search-params {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-sort {
+    display: flex;
+}
+
+.task {
+    display: flex;
+    height: 100%;
+    margin: 10px 0;
+    align-items: stretch;
+}
+
+.task > p {
+    display: inline-flex;
+    text-align: left;
+    flex-grow: 1;
+}
+
+.task > img {
+    margin: 0 5px;
+}
+
+nav > ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.pages {
+    display: inline-block;
+    border: 1px solid rgb(54,54,54);
+    border-radius: 2px;
+    padding: 5px;
+}
+
+nav > ul > li {
+    display: inline;
+}
