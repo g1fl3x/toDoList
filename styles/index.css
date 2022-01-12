@@ -1,6 +1,8 @@
 * {
     margin: 0;
     padding: 0;
+    outline: none;
+    border: none;
     box-sizing: border-box;
 }
 
@@ -13,18 +15,11 @@ body {
     font-family: monospace;
 }
 
-img {
-    height: 24px;
-    width: 24px;
-}
-
 button, input {
     background-color: rgb(54,54,54);
     color:rgb(148, 148, 148);
     border: 1px solid rgb(54,54,54);
     border-radius: 2px;
-    height: 24px;
-    padding: 5px;
 }
 
 time {
@@ -39,6 +34,8 @@ a:hover { text-decoration: underline; }
 
 #input-search {
     margin: 10px 20px;
+    height: 30px;
+    padding: 5px;
 }
 
 #selected-page {
@@ -53,7 +50,7 @@ a:hover { text-decoration: underline; }
 }
 
 .checkbox {
-    margin: 0 5px;
+    margin: auto auto;
 }
 
 .search {
@@ -82,10 +79,12 @@ a:hover { text-decoration: underline; }
     display: inline-flex;
     text-align: left;
     flex-grow: 1;
+    padding: 0 5px;
 }
 
 .task > img {
-    margin: 0 5px;
+    width: 24px;
+    height: 24px;
 }
 
 nav > ul {
@@ -97,6 +96,10 @@ nav > ul {
     display: inline-block;
     border: 1px solid rgb(54,54,54);
     border-radius: 2px;
+    padding: 5px;
+}
+
+.option {
     padding: 5px;
 }
 
