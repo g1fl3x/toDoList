@@ -1,72 +1,76 @@
 <!DOCTYPE html>
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>ToDo List - main</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ToDo</title>
+
+    <link rel="stylesheet" href="styles/stylesReset.css" />
     <link rel="stylesheet" href="styles/index.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 </head>
 <body>
-    <div class="centered">
-        <h1>ToDo</h1>
-        <section class="search">
-            <input id="input-search" placeholder="I want to..."></input>
-            <div class="search-params">
-                <div class="search-buttons">
-                    <button class="option">All</button>
-                    <button class="option">Done</button>
-                    <button class="option">Undone</button>
-                </div>
-                <div class="search-sort">
-                    <div>Sort by date:</div>
-                    <div>
-                        <input type="image" src="icons/arrow_up.svg" />
-                        <input type="image" src="icons/arrow_down.svg" />
-                    <div>
-                </div>
+    <div class="centered centered_styles">
+        <header class="header">
+            <h1>ToDo</h1>
+        </header>
+        <div class="add-form add-form_dark">
+            <input class="add-form__input add-form__input_dark" placeholder="I want to..."/>
+        </div>
+        <aside class="search-form">
+            <div class="search-form-buttons"> 
+                <button class="search-form-buttons__button search-form-buttons__button_dark">All</button>
+                <button class="search-form-buttons__button search-form-buttons__button_done search-form-buttons__button_dark">Done</button>
+                <button class="search-form-buttons__button search-form-buttons__button_dark">Undone</button>
             </div>
-        </section>
+            <div class="search-form-sort">
+                <p class="search-form-sort__text">Sort by Date:</p>
+                <button class="search-form-sort__button">
+                    <img class="search-form-sort__image" src="images/icons/arrow_up.svg" />
+                </button>
+                <button class="search-form-sort__button">
+                    <img class="search-form-sort__image" src="images/icons/arrow_down.svg"  />
+                </button>
+            </div> 
+        </aside>
+
         <main class="main">
-            <article class="task">
-                <input type="checkbox" class="checkbox">
-                <p>text example</p>
-                <time datetime="2001-05-15 19:00">2001/05/15</time>
-                <input class="delete-button" type="image" src="icons/delete.svg"/>
+            <article class="post">
+                <div class="post__apply"><input class="post__apply-checkbox" type="checkbox" /></div>
+                <div class="post__text"><input class="post__text-input post__text-input_dark" value="test" /></div>
+                <time class="post__time post__time_size_s" datetime="2022-01-03 19:30">2022/01/03</time>
+                <button class="post__delete">
+                    <img class="post__delete-image" src="images/icons/delete.svg" />
+                </button>
             </article>
-            <article class="task">
-                <input type="checkbox" class="checkbox">
-                <p>i love beer</p>
-                <time datetime="2021-05-15 19:00">2021/05/15</time>
-                <input class="delete-button" type="image" src="icons/delete.svg"/>
+
+            <article class="post">
+                <div class="post__apply"><input class="post__apply-checkbox" type="checkbox" /></div>
+                <div class="post__text"><input class="post__text-input post__text-input_dark" value="test" /></div>
+                <time class="post__time post__time_size_s" datetime="2022-01-03 19:30">2022/01/03</time>
+                <button class="post__delete">
+                    <img class="post__delete-image" src="images/icons/delete.svg" />
+                </button>
             </article>
-            <article class="task">
-                <input type="checkbox" class="checkbox">
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                <time datetime="2022-01-05 19:00">2022/01/05</time>
-                <input class="delete-button" type="image" src="icons/delete.svg"/>
-            </article>
-            <article class="task">
-                <input type="checkbox" class="checkbox">
-                <p>fix shit code</p>
-                <time datetime="2022-01-05 17:00">2022/01/05</time>
-                <input class="delete-button" type="image" src="icons/delete.svg"/>
-            </article>
-            <article class="task">
-                <input type="checkbox" class="checkbox">
-                <p>just for lulz 2just for lulz 2just for lulz 2just for lulz 2just for lulz 2just for lulz 2just for lulz 2</p>
-                <time datetime="2022-01-05 18:00">2022/01/05</time>
-                <input class="delete-button" type="image" src="icons/delete.svg"/>
+
+            <article class="post">
+                <div class="post__apply"><input class="post__apply-checkbox" type="checkbox" /></div>
+                <div class="post__text"><input class="post__text-input post__text-input_dark" value="test" /></div>
+                <time class="post__time post__time_size_s" datetime="2022-01-03 19:30">2022/01/03</time>
+                <button class="post__delete">
+                    <img class="post__delete-image" src="images/icons/delete.svg" />
+                </button>
             </article>
         </main>
-        <nav>
-            <ul class="pages">
-                <li><button><</button></li>
-                <li><button>1</button></li>
-                <li><button>2</button></li>
-                <li><button>3</button></li>
-                <li><button>4</button></li>
-                <li><button>5</button></li>
-                <li><button>></button></li>
-            </ul>
+
+        <nav class="pages">
+            <div class="pages__block pages__block_dark">
+                <div class="pages__page"><button class="pages__page-button pages__page-button_dark"><<</button></div>
+                <div class="pages__page"><button class="pages__page-button pages__page-button_dark pages__page-button_selected">1</button></div>
+                <div class="pages__page"><button class="pages__page-button pages__page-button_dark">>></button></div>
+            </div>
         </nav>
     </div>
 </body>
+</html>
