@@ -4,6 +4,12 @@
     outline: none;
     border: none;
     box-sizing: border-box;
+    font-size: 0;
+}
+
+h1 {
+    font-size: 30px;
+    margin: 20px 0;
 }
 
 body {
@@ -11,11 +17,11 @@ body {
     margin: 0 auto;
     background-color: rgb(39,39,39);
     color: rgb(148, 148, 148);
-    font-size: 20px;
     font-family: monospace;
 }
 
 button, input {
+    font-size: 20px;
     background-color: rgb(54,54,54);
     color:rgb(148, 148, 148);
     border: 1px solid rgb(54,54,54);
@@ -50,7 +56,7 @@ a:hover { text-decoration: underline; }
 }
 
 .checkbox {
-    margin: auto auto;
+    margin: 0 auto;
 }
 
 .search {
@@ -68,6 +74,10 @@ a:hover { text-decoration: underline; }
     display: flex;
 }
 
+.search-sort > div {
+    font-size: 18px;
+}
+
 .task {
     display: flex;
     height: 100%;
@@ -76,15 +86,11 @@ a:hover { text-decoration: underline; }
 }
 
 .task > p {
+    font-size: 20px;
     display: inline-flex;
     text-align: left;
     flex-grow: 1;
     padding: 0 5px;
-}
-
-.task > img {
-    width: 24px;
-    height: 24px;
 }
 
 nav > ul {
@@ -94,15 +100,28 @@ nav > ul {
 
 .pages {
     display: inline-block;
-    border: 1px solid rgb(54,54,54);
-    border-radius: 2px;
-    padding: 5px;
+    border: 0px;
 }
 
 .option {
+    font-size: 20px;
     padding: 5px;
+    margin: 0 5px;
+}
+
+.delete-button {
+    width: 24px;
+    height: 24px;
 }
 
 nav > ul > li {
+    margin: 1px;
     display: inline;
+}
+nav > ul > li > button {
+    background-color: rgb(54,54,54);
+    padding: 5px;
+    margin: 1px;
+    display: inline;
+    font-size: 20px;
 }

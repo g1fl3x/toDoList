@@ -3,7 +3,6 @@
     <meta charset="UTF-8">
     <title>ToDo List - main</title>
     <link rel="stylesheet" href="styles/index.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 </head>
 <body>
     <div class="centered">
@@ -19,8 +18,8 @@
                 <div class="search-sort">
                     <div>Sort by date:</div>
                     <div>
-                        <button><img src="icons/arrow_up.svg"></button>
-                        <button><img src="icons/arrow_down.svg"></button>
+                        <input type="image" src="icons/arrow_up.svg" />
+                        <input type="image" src="icons/arrow_down.svg" />
                     <div>
                 </div>
             </div>
@@ -30,42 +29,42 @@
                 <input type="checkbox" class="checkbox">
                 <p>text example</p>
                 <time datetime="2001-05-15 19:00">2001/05/15</time>
-                <img src="icons/delete.svg">
+                <input class="delete-button" type="image" src="icons/delete.svg"/>
             </article>
             <article class="task">
                 <input type="checkbox" class="checkbox">
                 <p>i love beer</p>
                 <time datetime="2021-05-15 19:00">2021/05/15</time>
-                <img src="icons/delete.svg">
+                <input class="delete-button" type="image" src="icons/delete.svg"/>
             </article>
             <article class="task">
                 <input type="checkbox" class="checkbox">
                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
                 <time datetime="2022-01-05 19:00">2022/01/05</time>
-                <img src="icons/delete.svg">
+                <input class="delete-button" type="image" src="icons/delete.svg"/>
             </article>
             <article class="task">
                 <input type="checkbox" class="checkbox">
                 <p>fix shit code</p>
                 <time datetime="2022-01-05 17:00">2022/01/05</time>
-                <img src="icons/delete.svg">
+                <input class="delete-button" type="image" src="icons/delete.svg"/>
             </article>
             <article class="task">
                 <input type="checkbox" class="checkbox">
                 <p>just for lulz 2just for lulz 2just for lulz 2just for lulz 2just for lulz 2just for lulz 2just for lulz 2</p>
                 <time datetime="2022-01-05 18:00">2022/01/05</time>
-                <img src="icons/delete.svg">
+                <input class="delete-button" type="image" src="icons/delete.svg"/>
             </article>
         </main>
         <nav>
             <ul class="pages">
-                <li><</li>
-                <li id="selected-page"><a href="#1">1</a></li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>></li>
+                <li><button><</button></li>
+                <li><button>1</button></li>
+                <li><button>2</button></li>
+                <li><button>3</button></li>
+                <li><button>4</button></li>
+                <li><button>5</button></li>
+                <li><button>></button></li>
             </ul>
         </nav>
     </div>
