@@ -51,7 +51,6 @@ a:hover { text-decoration: underline; }
 }
 
 .centered {
-    margin: 0 auto;
     min-width: 400px;
     max-width: 1200px;
     text-align: center;
