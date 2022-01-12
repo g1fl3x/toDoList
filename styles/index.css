@@ -6,7 +6,7 @@ body {
 }
 
 .centered {
-    display: inline;
+    display: inline-block;
     padding: 5px;
     margin: 0 auto;
     min-width: 400px;
