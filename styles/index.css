@@ -1,4 +1,5 @@
 body {
+    display: inline;
     background-color: rgb(39,39,39);
     color: rgb(148, 148, 148);
     font-family: monospace;
@@ -6,7 +7,7 @@ body {
 }
 
 .centered {
-    display: inline-block;
+    display: block;
     padding: 5px;
     margin: 0 auto;
     min-width: 400px;
