@@ -5,8 +5,8 @@
 }
 
 body {
-    width: 95%;
-    margin: auto auto 50px;
+    width: 100%;
+    margin: 0 auto;
     background-color: rgb(39,39,39);
     color: rgb(148, 148, 148);
     font-size: 20px;
@@ -46,6 +46,7 @@ a:hover { text-decoration: underline; }
 }
 
 .centered {
+    margin: 1em auto;
     min-width: 400px;
     max-width: 1200px;
     text-align: center;
