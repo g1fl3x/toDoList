@@ -5,8 +5,8 @@
 }
 
 body {
-    width: 100%;
-    padding: 5px;
+    width: 95%;
+    margin: auto auto 50px;
     background-color: rgb(39,39,39);
     color: rgb(148, 148, 148);
     font-size: 20px;
