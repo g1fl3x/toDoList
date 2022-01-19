@@ -6,28 +6,32 @@ import TasksList from "./components/TasksList";
 function App() {
 
 	function randomString(i) {
-		var rnd = '';
-		while (rnd.length < i) 
+		let rnd = '';
+		while (rnd.length < i)
 			rnd += Math.random().toString(36).substring(2);
 		return rnd.substring(0, i);
 	};
 
-	const [tasks, changePosts] = useState([
-		{id: "sdfghsdfgfdsg", completed: false, text: "Text example", time: "2022/09/03"},
+	const [tasks, changeTasks] = useState([
+		{id: "sdfghsdfgfdsg", completed: true, text: "Text example", time: "2022/09/03"},
 		{id: "sdfghsdfgdsfjkg", completed: false, text: "Create reactJs App", time: "2022/01/04"},
 		{id: "isgfgsdfsd", completed: false, text: "Fix code", time: "2021/01/04"}
 	])
 
 	function deleteTask(taskId) {
-		changePosts(tasks.filter(task => task.id !== taskId))
+		changeTasks(tasks.filter(task => task.id !== taskId))
 	}
 
 	function addTask(text) {
-		changePosts([...tasks, {id: randomString(32), completed: false, text: text, time: new Date().toISOString().slice(0, 10).replaceAll("-","/")}])
+		changeTasks([...tasks, {id: randomString(32), completed: false, text: text, time: new Date().toISOString().slice(0, 10).replaceAll("-","/")}])
 	}
 
 	function editTask(taskId, text) {
-		changePosts(tasks.map(task => task.id === taskId ? {...task, text: text} : task))
+		changeTasks(tasks.map(task => task.id === taskId ? {...task, text: text} : task))
+	}
+
+	function completeTask(taskId, complete) {
+		changeTasks(tasks.map(task => task.id === taskId ? {...task, completed: complete} : task))
 	}
 
   return (
@@ -38,7 +42,12 @@ function App() {
 		<AddTask addTaskCallback={addTask} />
 		<Sorting />
 		<main className="main">
-			<TasksList posts={tasks} editTaskCallback={editTask} deleteTaskCallback={deleteTask} />
+			<TasksList 
+				posts={tasks}
+				editTaskCallback={editTask}
+				deleteTaskCallback={deleteTask}
+				completeTaskCallback={completeTask}
+			/>
 		</main>
 		<nav className="pages">
 
