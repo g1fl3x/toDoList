@@ -5,6 +5,7 @@ function Task(props) {
 
 	const [editMode, setEditMode] = useState(false);
 	const [taskText, setTaskText] = useState(props.post.text);
+	let isTaskCompleted = props.post.completed
 
 	function handleOnBlur() {
 		setEditMode(false)
@@ -15,8 +16,13 @@ function Task(props) {
 	}
 
 	function handleOnChange(e) {
-		setTaskText(e.currentTarget.value);
-		props.editTaskCallback(props.post.id, taskText);
+		setTaskText(e.currentTarget.value)
+		props.editTaskCallback(props.post.id, e.currentTarget.value);
+	}
+
+	function onCheckboxClicked() {
+		isTaskCompleted = !isTaskCompleted
+		props.completeTaskCallback(props.post.id, isTaskCompleted)
 	}
 
 	const lookView = (
@@ -44,13 +50,29 @@ function Task(props) {
 
     return (
       	<article className="post">
-			<div className="post__apply"><input className="post__apply-checkbox" type="checkbox" /></div>
+			<div className="post__apply">
+				<input 
+					className="post__apply-checkbox"
+					checked={isTaskCompleted}
+					onClick={onCheckboxClicked}
+					type="checkbox"
+				/>
+			</div>
 			
 			{editMode ? editView : lookView}
 
-			<time className="post__time post__time_size_s" dateTime="2022-01-03 19:30">{props.post.time}</time>
-			<button  className="post__delete" onClick={() => props.deleteTaskCallback(props.post.id)}>
-				<img className="post__delete-image" src={delete_img} />
+			<time 
+				className="post__time post__time_size_s" 
+				dateTime="2022-01-03 19:30"
+			>{props.post.time}</time>
+			<button
+				className="post__delete"
+				onClick={() => props.deleteTaskCallback(props.post.id)}
+			>
+				<img 
+					className="post__delete-image"
+					src={delete_img} 
+				/>
 			</button>
 		</article>
     );
