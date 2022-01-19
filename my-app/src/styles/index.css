@@ -107,6 +107,11 @@ body {
     border: 1px solid rgb(54,54,54);
     border-radius: 3px;
     color:rgb(148, 148, 148);
+    text-decoration: none;
+}
+
+.post__text-input_completed {
+    text-decoration: line-through;
 }
 
 .post__time {
