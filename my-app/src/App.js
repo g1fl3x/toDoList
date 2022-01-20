@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AddTask from "./components/AddTask";
 import Sorting from "./components/Sorting";
 import TasksList from "./components/TasksList";
@@ -10,11 +10,37 @@ function App() {
 		{ id: "sdfghsdfgdsfjkg", completed: false, text: "Create reactJs App", time: 1642676319056 },
 		{ id: "isgfgsdfsd", completed: false, text: "Fix code", time: 1642676319017 }
 	])
+	const [currentTasks, changeCurrentTasks] = useState(tasks)
+	const [pagesCount, setPagesCount] = useState(1)
 	const [optionsType, setOptionsType] = useState('All')
 	const [sortType, setSortType] = useState('classicSort')
-	const [page, setPage] = useState(1)
+	const [currentPage, changeCurrentPage] = useState(1)
 
 	const tasksOnPage = 10
+
+	useEffect(() => {
+
+		const filteredTasks = tasks.filter(item => optionsFilter(item, optionsType))
+		const filteredTasksLen = filteredTasks.length
+
+		const outputTasks = filteredTasks
+			.sort((a, b) => sortFilter(a, b, sortType))
+			.slice((currentPage - 1) * tasksOnPage, currentPage * tasksOnPage)
+		
+		const pagesFloat = filteredTasksLen / tasksOnPage
+		let pagesCount = filteredTasksLen % tasksOnPage === 0 ? pagesFloat : Math.floor(pagesFloat) + 1
+		if (pagesCount < 1) {
+			setOptionsType('All') // go to all screen
+			pagesCount = 1
+		}
+		if (pagesCount < currentPage) {
+			changeCurrentPage(pagesCount)
+		}
+
+		setPagesCount(pagesCount)
+		changeCurrentTasks(outputTasks)
+
+	}, [tasks, currentPage, sortType, optionsType])
 
 
 	// utils
@@ -28,7 +54,7 @@ function App() {
 
 	// tasks functions
 	function deleteTask(taskId) {
-		changeTasks(tasks.filter(item => item.id !== taskId))
+		changeTasks([...tasks.filter(item => item.id !== taskId)])
 	}
 
 	function addTask(text) {
@@ -41,11 +67,11 @@ function App() {
 	}
 
 	function editTask(taskId, text) {
-		changeTasks(tasks.map(item => item.id === taskId ? { ...item, text: text } : item))
+		changeTasks([...tasks.map(item => item.id === taskId ? { ...item, text: text } : item)])
 	}
 
 	function completeTask(taskId, complete) {
-		changeTasks(tasks.map(item => item.id === taskId ? { ...item, completed: complete } : item))
+		changeTasks([...tasks.map(item => item.id === taskId ? { ...item, completed: complete } : item)])
 	}
 
 
@@ -84,20 +110,7 @@ function App() {
 	// pages
 
 	function setCurrentPage(pageNumber) {
-		setPage(pageNumber)
-	}
-
-	function getPagesCount() {
-		const tasksList = tasks.filter(item => optionsFilter(item, optionsType))
-		const pagesFloat = tasksList.length / tasksOnPage
-		let pagesCount = Number.isInteger(pagesFloat) ? Math.floor(pagesFloat) : Math.floor(pagesFloat) + 1
-		if (pagesCount < 1) {
-			pagesCount = 1
-		}
-		if (pagesCount < page) {
-			setPage(pagesCount)
-		}
-		return pagesCount
+		changeCurrentPage(pageNumber)
 	}
 
 	return (
@@ -114,9 +127,7 @@ function App() {
 
 			<main className="main">
 				<TasksList
-					posts={tasks.filter(item => optionsFilter(item, optionsType))
-						.sort((a, b) => sortFilter(a, b, sortType))
-						.slice((page - 1) * tasksOnPage, page * tasksOnPage)}
+					posts={currentTasks}
 					editTask={editTask}
 					deleteTask={deleteTask}
 					completeTask={completeTask}
@@ -126,7 +137,7 @@ function App() {
 			<nav className="pages">
 				<div className="pages__block pages__block_dark">
 					<Pages
-						pagesCount={getPagesCount()}
+						pagesCount={pagesCount}
 						setCurrentPage={setCurrentPage}
 					/>
 				</div>

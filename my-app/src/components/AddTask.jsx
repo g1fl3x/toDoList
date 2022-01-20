@@ -3,8 +3,9 @@ function AddTask({addTask}) {
     function handleKeyDown(event) {
 
         if (event.keyCode === 13) {
-            if (event.currentTarget.value !== "")
-                addTask(event.currentTarget.value);
+            const filteredInputText = event.currentTarget.value.trim()
+            if (filteredInputText !== "")
+                addTask(filteredInputText);
             event.currentTarget.value = ""
         }
     }

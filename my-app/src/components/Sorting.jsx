@@ -4,12 +4,12 @@ import OptionsButton from './OptionsButton';
 import SortingButton from './SortingButton';
 
 function Sorting({ showTasksWithOption, sortTasks }) {
+
     return (
         <aside className="search-form">
             <div className="search-form-buttons">
-                <OptionsButton text="All" showTasksWithOption={showTasksWithOption} />
-                <OptionsButton text="Done" showTasksWithOption={showTasksWithOption} />
-                <OptionsButton text="Undone" showTasksWithOption={showTasksWithOption} />
+                {["All", "Done", "Undone"]
+                    .map((el, i) => <OptionsButton key={i} text={el} showTasksWithOption={showTasksWithOption} />)}
             </div>
             <div className="search-form-sort">
                 <p className="search-form-sort__text">Sort by Date:</p>
