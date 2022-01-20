@@ -1,10 +1,13 @@
-function SortingButton(props) {
+function SortingButton({type, img, sortTasks}) {
   return (
     <button 
-      	className="search-form-sort__button"
-		onClick={props.cback}
-		>
-        <img className="search-form-sort__image" src={props.img} />
+    	className="search-form-sort__button"
+		onClick={() => sortTasks(type)}
+	>
+        <img 
+			className="search-form-sort__image"
+			src={img}
+		/>
     </button>
 );
 }

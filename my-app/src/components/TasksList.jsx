@@ -1,16 +1,16 @@
 import Task from './Task.jsx'
 
-function TasksList(props) {
+function TasksList({ posts, editTask, deleteTask, completeTask }) {
 
     return (
-        props.posts.map(post => <Task
+        posts.map(post => <Task
             post={post}
             key={post.id}
-            editTaskCallback={props.editTaskCallback}
-            deleteTaskCallback={props.deleteTaskCallback}
-            completeTaskCallback={props.completeTaskCallback}
+            editTask={editTask}
+            deleteTask={deleteTask}
+            completeTask={completeTask}
         />)
     );
-  }
-  
-  export default TasksList;
+}
+
+export default TasksList;

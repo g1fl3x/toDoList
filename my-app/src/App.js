@@ -10,25 +10,30 @@ function App() {
 		{ id: "sdfghsdfgdsfjkg", completed: false, text: "Create reactJs App", time: 1642676319056 },
 		{ id: "isgfgsdfsd", completed: false, text: "Fix code", time: 1642676319017 }
 	])
-	const [optionsType, setOptionsType] = useState('all')
-	const [sortType, setSortType] = useState('classic')
+	const [optionsType, setOptionsType] = useState('All')
+	const [sortType, setSortType] = useState('classicSort')
 	const [page, setPage] = useState(1)
+
 	const tasksOnPage = 10
 
-	function randomString(i) {
+
+	// utils
+	function rangomStringId(size) {
 		let rnd = '';
-		while (rnd.length < i)
+		while (rnd.length < size)
 			rnd += Math.random().toString(36).substring(2);
-		return rnd.substring(0, i);
+		return rnd.substring(0, size);
 	};
 
+
+	// tasks functions
 	function deleteTask(taskId) {
-		changeTasks(tasks.filter(task => task.id !== taskId))
+		changeTasks(tasks.filter(item => item.id !== taskId))
 	}
 
 	function addTask(text) {
 		changeTasks([...tasks, {
-			id: randomString(32),
+			id: rangomStringId(32),
 			completed: false,
 			text: text,
 			time: +new Date()
@@ -36,62 +41,49 @@ function App() {
 	}
 
 	function editTask(taskId, text) {
-		changeTasks(tasks.map(task => task.id === taskId ? { ...task, text: text } : task))
+		changeTasks(tasks.map(item => item.id === taskId ? { ...item, text: text } : item))
 	}
 
 	function completeTask(taskId, complete) {
-		changeTasks(tasks.map(task => task.id === taskId ? { ...task, completed: complete } : task))
+		changeTasks(tasks.map(item => item.id === taskId ? { ...item, completed: complete } : item))
 	}
 
-	function showAllTasks() {
-		setOptionsType('all')
+
+	// filter functions
+	function showTasksWithOption(type) {
+		setOptionsType(type)
 	}
 
-	function showDoneTasks() {
-		setOptionsType('done')
+	function sortTasks(type) {
+		setSortType(type)
 	}
 
-	function showUndoneTasks() {
-		setOptionsType('undone')
+	function sortFilter(a, b, type) {
+		if (type === 'reverseSort') {
+			if (a > b)
+				return 1
+			return -1
+		}
 	}
 
 	function optionsFilter(item, type) {
 		switch (type) {
-			case 'all':
+			case 'All':
 				return true
-			case 'done':
+			case 'Done':
 				if (item.completed)
 					return true
 				return false
-			case 'undone':
+			case 'Undone':
 				if (!item.completed)
 					return true
 				return false
 		}
 	}
 
-	function sortTasks() {
-		setSortType('classic')
-	}
+	// pages
 
-	function reverseSortTasks() {
-		setSortType('reverse')
-	}
-
-	function sortFilter(a, b, type) {
-		switch (type) {
-			case 'default':
-				if (a < b)
-					return 1
-				return -1
-			case 'reverse':
-				if (a > b)
-					return 1
-				return -1
-		}
-	}
-
-	function changePage(pageNumber) {
+	function setCurrentPage(pageNumber) {
 		setPage(pageNumber)
 	}
 
@@ -113,29 +105,29 @@ function App() {
 			<header className="header">
 				<h1>ToDo</h1>
 			</header>
-			<AddTask addTaskCallback={addTask} />
+			<AddTask addTask={addTask} />
+
 			<Sorting
-				showAllTasks={showAllTasks}
-				showDoneTasks={showDoneTasks}
-				showUndoneTasks={showUndoneTasks}
+				showTasksWithOption={showTasksWithOption}
 				sortTasks={sortTasks}
-				reverseSortTasks={reverseSortTasks}
 			/>
+
 			<main className="main">
 				<TasksList
 					posts={tasks.filter(item => optionsFilter(item, optionsType))
 						.sort((a, b) => sortFilter(a, b, sortType))
 						.slice((page - 1) * tasksOnPage, page * tasksOnPage)}
-					editTaskCallback={editTask}
-					deleteTaskCallback={deleteTask}
-					completeTaskCallback={completeTask}
+					editTask={editTask}
+					deleteTask={deleteTask}
+					completeTask={completeTask}
 				/>
 			</main>
+
 			<nav className="pages">
 				<div className="pages__block pages__block_dark">
 					<Pages
-						pageCount={getPagesCount()}
-						changePage={changePage}
+						pagesCount={getPagesCount()}
+						setCurrentPage={setCurrentPage}
 					/>
 				</div>
 			</nav>

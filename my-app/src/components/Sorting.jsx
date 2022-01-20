@@ -3,22 +3,21 @@ import arrow_down from '../images/icons/arrow_down.svg';
 import OptionsButton from './OptionsButton';
 import SortingButton from './SortingButton';
 
-function Sorting(props) {
+function Sorting({ showTasksWithOption, sortTasks }) {
     return (
         <aside className="search-form">
             <div className="search-form-buttons">
-                <OptionsButton text="Done" cback={props.showDoneTasks}/>
-                <OptionsButton text="All" cback={props.showAllTasks}/>
-                <OptionsButton text="Undone" cback={props.showUndoneTasks}/>
+                <OptionsButton text="All" showTasksWithOption={showTasksWithOption} />
+                <OptionsButton text="Done" showTasksWithOption={showTasksWithOption} />
+                <OptionsButton text="Undone" showTasksWithOption={showTasksWithOption} />
             </div>
             <div className="search-form-sort">
                 <p className="search-form-sort__text">Sort by Date:</p>
-                <SortingButton img={arrow_up} cback={props.sortTasks} />
-                <SortingButton img={arrow_down} cback={props.reverseSortTasks} />
-            </div> 
+                <SortingButton type="classicSort" img={arrow_up} sortTasks={sortTasks} />
+                <SortingButton type="reverseSort" img={arrow_down} sortTasks={sortTasks} />
+            </div>
         </aside>
     );
-  }
-  
-  export default Sorting;
-  
+}
+
+export default Sorting;

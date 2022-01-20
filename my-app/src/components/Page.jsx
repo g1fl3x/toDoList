@@ -1,11 +1,11 @@
-function Page(props) {
+function Page({ setCurrentPage, pageNumber }) {
     return (
         <div className="pages__page">
-            <button 
+            <button
                 className="pages__page-button pages__page-button_dark pages__page-button_selected"
-                onClick={() => props.changePage(props.pageNumber)}
+                onClick={() => setCurrentPage(pageNumber)}
             >
-                {props.pageNumber}
+                {pageNumber}
             </button>
         </div>
     );

@@ -1,10 +1,10 @@
-function OptionsButton(props) {
+function OptionsButton({text, showTasksWithOption}) {
     return (
         <button 
             className="search-form-buttons__button search-form-buttons__button_dark"
-            onClick={() => props.cback()}
+            onClick={() => showTasksWithOption(text)}
         >
-        {props.text}
+        {text}
         </button>
     );
   }
