@@ -6,9 +6,13 @@ function Task(props) {
 	const [editMode, setEditMode] = useState(false);
 	const [taskText, setTaskText] = useState(props.post.text);
 	let isTaskCompleted = props.post.completed
+	let edited = false
 
-	function handleOnBlur() {
+	function handleOnBlur(event) {
 		setEditMode(false)
+		if (!edited)
+			setTaskText(props.post.text)
+		edited = false
 	}
 
 	function handleOnClick() {
@@ -17,8 +21,20 @@ function Task(props) {
 
 	function handleOnChange(e) {
 		setTaskText(e.currentTarget.value)
-		props.editTaskCallback(props.post.id, e.currentTarget.value);
 	}
+
+    function handleKeyDown(event) {
+		console.log(event.currentTarget.value)
+        if (event.keyCode === 13) {
+            props.editTaskCallback(props.post.id, event.currentTarget.value)
+			edited = true
+			event.currentTarget.blur()
+        }
+		if (event.keyCode === 27) {
+			setTaskText(props.post.text)
+			event.currentTarget.blur()
+		}
+    }
 
 	function onCheckboxClicked() {
 		isTaskCompleted = !isTaskCompleted
@@ -43,6 +59,7 @@ function Task(props) {
 				value = {taskText}
 				onBlur = {handleOnBlur}
 				onChange = {handleOnChange}
+				onKeyDown = {handleKeyDown}
 				autoFocus = {true} 
 			/>
 		</div>
