@@ -13,8 +13,8 @@ function Sorting(props) {
             </div>
             <div className="search-form-sort">
                 <p className="search-form-sort__text">Sort by Date:</p>
-                <SortingButton img={arrow_up} />
-                <SortingButton img={arrow_down} />
+                <SortingButton img={arrow_up} cback={props.sortTasks} />
+                <SortingButton img={arrow_down} cback={props.reverseSortTasks} />
             </div> 
         </aside>
     );

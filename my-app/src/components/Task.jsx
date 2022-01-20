@@ -64,7 +64,7 @@ function Task(props) {
 			<time 
 				className="post__time post__time_size_s" 
 				dateTime="2022-01-03 19:30"
-			>{props.post.time}</time>
+			>{new Date(props.post.time).toLocaleDateString("us-EN", {dateStyle:"short"})}</time>
 			<button
 				className="post__delete"
 				onClick={() => props.deleteTaskCallback(props.post.id)}
