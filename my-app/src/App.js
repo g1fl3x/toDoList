@@ -6,14 +6,13 @@ import Pages from "./components/Pages";
 
 function App() {
 	const [tasks, changeTasks] = useState([
-		{id: "sdfghsdfgfdsg", completed: true, text: "Text example", time: "2022/09/03"},
-		{id: "sdfghsdfgdsfjkg", completed: false, text: "Create reactJs App", time: "2022/01/04"},
-		{id: "isgfgsdfsd", completed: false, text: "Fix code", time: "2021/01/04"}
+		{ id: "sdfghsdfgfdsg", completed: true, text: "Text example", time: 1642676319020 },
+		{ id: "sdfghsdfgdsfjkg", completed: false, text: "Create reactJs App", time: 1642676319056 },
+		{ id: "isgfgsdfsd", completed: false, text: "Fix code", time: 1642676319017 }
 	])
 	const [optionsType, setOptionsType] = useState('all')
 	const [sortType, setSortType] = useState('classic')
 	const [page, setPage] = useState(1)
-
 	const tasksOnPage = 10
 
 	function randomString(i) {
@@ -28,15 +27,20 @@ function App() {
 	}
 
 	function addTask(text) {
-		changeTasks([...tasks, {id: randomString(32), completed: false, text: text, time: +new Date()}])
+		changeTasks([...tasks, {
+			id: randomString(32),
+			completed: false,
+			text: text,
+			time: +new Date()
+		}])
 	}
 
 	function editTask(taskId, text) {
-		changeTasks(tasks.map(task => task.id === taskId ? {...task, text: text} : task))
+		changeTasks(tasks.map(task => task.id === taskId ? { ...task, text: text } : task))
 	}
 
 	function completeTask(taskId, complete) {
-		changeTasks(tasks.map(task => task.id === taskId ? {...task, completed: complete} : task))
+		changeTasks(tasks.map(task => task.id === taskId ? { ...task, completed: complete } : task))
 	}
 
 	function showAllTasks() {
@@ -62,7 +66,7 @@ function App() {
 			case 'undone':
 				if (!item.completed)
 					return true
-				return false	
+				return false
 		}
 	}
 
@@ -75,7 +79,7 @@ function App() {
 	}
 
 	function sortFilter(a, b, type) {
-		switch(type) {
+		switch (type) {
 			case 'default':
 				if (a < b)
 					return 1
@@ -85,7 +89,6 @@ function App() {
 					return 1
 				return -1
 		}
-
 	}
 
 	function changePage(pageNumber) {
@@ -94,7 +97,7 @@ function App() {
 
 	function getPagesCount() {
 		const tasksList = tasks.filter(item => optionsFilter(item, optionsType))
-		const pagesFloat = tasksList.length/tasksOnPage
+		const pagesFloat = tasksList.length / tasksOnPage
 		let pagesCount = Number.isInteger(pagesFloat) ? Math.floor(pagesFloat) : Math.floor(pagesFloat) + 1
 		if (pagesCount < 1) {
 			pagesCount = 1
@@ -105,39 +108,39 @@ function App() {
 		return pagesCount
 	}
 
-  return (
-    <div className="centered centered_styles">
-		<header className="header">
-			<h1>ToDo</h1>
-		</header>
-		<AddTask addTaskCallback={addTask} />
-		<Sorting 
-			showAllTasks={showAllTasks}
-			showDoneTasks={showDoneTasks}
-			showUndoneTasks={showUndoneTasks}
-			sortTasks={sortTasks}
-			reverseSortTasks={reverseSortTasks}
-		/>
-		<main className="main">
-			<TasksList 
-				posts={tasks.filter(item => optionsFilter(item, optionsType))
-					.sort((a, b) => sortFilter(a, b, sortType))
-					.slice((page - 1) * tasksOnPage, page * tasksOnPage)}
-				editTaskCallback={editTask}
-				deleteTaskCallback={deleteTask}
-				completeTaskCallback={completeTask}
+	return (
+		<div className="centered centered_styles">
+			<header className="header">
+				<h1>ToDo</h1>
+			</header>
+			<AddTask addTaskCallback={addTask} />
+			<Sorting
+				showAllTasks={showAllTasks}
+				showDoneTasks={showDoneTasks}
+				showUndoneTasks={showUndoneTasks}
+				sortTasks={sortTasks}
+				reverseSortTasks={reverseSortTasks}
 			/>
-		</main>
-		<nav className="pages">
-			<div className="pages__block pages__block_dark">
-				<Pages 
-					pageCount={getPagesCount()}
-					changePage={changePage}
+			<main className="main">
+				<TasksList
+					posts={tasks.filter(item => optionsFilter(item, optionsType))
+						.sort((a, b) => sortFilter(a, b, sortType))
+						.slice((page - 1) * tasksOnPage, page * tasksOnPage)}
+					editTaskCallback={editTask}
+					deleteTaskCallback={deleteTask}
+					completeTaskCallback={completeTask}
 				/>
-			</div>
-        </nav>
-    </div>
-  );
+			</main>
+			<nav className="pages">
+				<div className="pages__block pages__block_dark">
+					<Pages
+						pageCount={getPagesCount()}
+						changePage={changePage}
+					/>
+				</div>
+			</nav>
+		</div>
+	);
 }
 
 export default App;
