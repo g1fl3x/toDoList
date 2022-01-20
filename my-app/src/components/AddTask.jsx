@@ -3,7 +3,8 @@ function AddTask(props) {
     function handleKeyDown(event) {
 
         if (event.keyCode === 13) {
-            props.addTaskCallback(event.currentTarget.value);
+            if (event.currentTarget.value !== "")
+                props.addTaskCallback(event.currentTarget.value);
             event.currentTarget.value = ""
         }
     }
