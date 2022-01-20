@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AddTask from "./components/AddTask";
 import Sorting from "./components/Sorting";
 import TasksList from "./components/TasksList";
+import Pages from "./components/Pages";
 
 function App() {
 	const [tasks, changeTasks] = useState([
@@ -10,7 +11,10 @@ function App() {
 		{id: "isgfgsdfsd", completed: false, text: "Fix code", time: "2021/01/04"}
 	])
 	const [optionsType, setOptionsType] = useState('all')
-	const [sortType, setSortType] = useState('standart')
+	const [sortType, setSortType] = useState('classic')
+	const [page, setPage] = useState(1)
+
+	const tasksOnPage = 10
 
 	function randomString(i) {
 		let rnd = '';
@@ -56,14 +60,14 @@ function App() {
 					return true
 				return false
 			case 'undone':
-				if (item.completed)
-					return false
-				return true	
+				if (!item.completed)
+					return true
+				return false	
 		}
 	}
 
 	function sortTasks() {
-		setSortType('standart')
+		setSortType('classic')
 	}
 
 	function reverseSortTasks() {
@@ -72,7 +76,7 @@ function App() {
 
 	function sortFilter(a, b, type) {
 		switch(type) {
-			case 'classic':
+			case 'default':
 				if (a < b)
 					return 1
 				return -1
@@ -82,6 +86,23 @@ function App() {
 				return -1
 		}
 
+	}
+
+	function changePage(pageNumber) {
+		setPage(pageNumber)
+	}
+
+	function getPagesCount() {
+		const tasksList = tasks.filter(item => optionsFilter(item, optionsType))
+		const pagesFloat = tasksList.length/tasksOnPage
+		let pagesCount = Number.isInteger(pagesFloat) ? Math.floor(pagesFloat) : Math.floor(pagesFloat) + 1
+		if (pagesCount < 1) {
+			pagesCount = 1
+		}
+		if (pagesCount < page) {
+			setPage(pagesCount)
+		}
+		return pagesCount
 	}
 
   return (
@@ -99,16 +120,21 @@ function App() {
 		/>
 		<main className="main">
 			<TasksList 
-				posts={tasks
-					.filter(item => optionsFilter(item, optionsType))
-					.sort((a, b) => sortFilter(a, b, sortType))}
+				posts={tasks.filter(item => optionsFilter(item, optionsType))
+					.sort((a, b) => sortFilter(a, b, sortType))
+					.slice((page - 1) * tasksOnPage, page * tasksOnPage)}
 				editTaskCallback={editTask}
 				deleteTaskCallback={deleteTask}
 				completeTaskCallback={completeTask}
 			/>
 		</main>
 		<nav className="pages">
-
+			<div className="pages__block pages__block_dark">
+				<Pages 
+					pageCount={getPagesCount()}
+					changePage={changePage}
+				/>
+			</div>
         </nav>
     </div>
   );
