@@ -55,6 +55,7 @@ function Task(props) {
 					className="post__apply-checkbox"
 					checked={isTaskCompleted}
 					onClick={onCheckboxClicked}
+					onChange={() => 1}
 					type="checkbox"
 				/>
 			</div>
