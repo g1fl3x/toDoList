@@ -99,7 +99,9 @@ function App() {
 		/>
 		<main className="main">
 			<TasksList 
-				posts={tasks.filter(item => optionsFilter(item, optionsType)).sort((a, b) => sortFilter(a, b, sortType))}
+				posts={tasks
+					.filter(item => optionsFilter(item, optionsType))
+					.sort((a, b) => sortFilter(a, b, sortType))}
 				editTaskCallback={editTask}
 				deleteTaskCallback={deleteTask}
 				completeTaskCallback={completeTask}
