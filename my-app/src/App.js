@@ -10,6 +10,7 @@ function App() {
 		{id: "isgfgsdfsd", completed: false, text: "Fix code", time: "2021/01/04"}
 	])
 	const [optionsType, setOptionsType] = useState('all')
+	const [sortType, setSortType] = useState('standart')
 
 	function randomString(i) {
 		let rnd = '';
@@ -23,7 +24,7 @@ function App() {
 	}
 
 	function addTask(text) {
-		changeTasks([...tasks, {id: randomString(32), completed: false, text: text, time: new Date().toISOString().slice(0, 10).replaceAll("-","/")}])
+		changeTasks([...tasks, {id: randomString(32), completed: false, text: text, time: +new Date()}])
 	}
 
 	function editTask(taskId, text) {
@@ -61,6 +62,28 @@ function App() {
 		}
 	}
 
+	function sortTasks() {
+		setSortType('standart')
+	}
+
+	function reverseSortTasks() {
+		setSortType('reverse')
+	}
+
+	function sortFilter(a, b, type) {
+		switch(type) {
+			case 'classic':
+				if (a < b)
+					return 1
+				return -1
+			case 'reverse':
+				if (a > b)
+					return 1
+				return -1
+		}
+
+	}
+
   return (
     <div className="centered centered_styles">
 		<header className="header">
@@ -71,10 +94,12 @@ function App() {
 			showAllTasks={showAllTasks}
 			showDoneTasks={showDoneTasks}
 			showUndoneTasks={showUndoneTasks}
+			sortTasks={sortTasks}
+			reverseSortTasks={reverseSortTasks}
 		/>
 		<main className="main">
 			<TasksList 
-				posts={tasks.filter(item => optionsFilter(item, optionsType))}
+				posts={tasks.filter(item => optionsFilter(item, optionsType)).sort((a, b) => sortFilter(a, b, sortType))}
 				editTaskCallback={editTask}
 				deleteTaskCallback={deleteTask}
 				completeTaskCallback={completeTask}
