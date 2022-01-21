@@ -1,8 +1,7 @@
 function SortingButton({ type, img, selected, sortTasks }) {
 	let buttonStyles = "search-form-sort__button"
-	if (selected) {
+	if (selected)
 		buttonStyles += " search-form-sort__button_selected"
-	}
 	return (
 		<button
 			className={buttonStyles}

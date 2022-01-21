@@ -4,14 +4,14 @@ import delete_img from '../images/icons/delete.svg'
 function Task({ post, editTask, deleteTask, completeTask }) {
 
 	const [editMode, setEditMode] = useState(false);
-	const [taskText, setTaskText] = useState(post.text);
-	let isTaskCompleted = post.completed
+	const [taskText, setTaskText] = useState(post.name);
+	let isTaskCompleted = post.done
 	let edited = false
 
 	function handleOnBlur() {
 		setEditMode(false)
 		if (!edited)
-			setTaskText(post.text)
+			setTaskText(post.name)
 		edited = false
 	}
 
@@ -25,19 +25,19 @@ function Task({ post, editTask, deleteTask, completeTask }) {
 
 	function handleKeyDown(event) {
 		if (event.keyCode === 13) {
-			editTask(post.id, event.currentTarget.value)
+			editTask(post.uuid, event.currentTarget.value)
 			edited = true
 			event.currentTarget.blur()
 		}
 		if (event.keyCode === 27) {
-			setTaskText(post.text)
+			setTaskText(post.name)
 			event.currentTarget.blur()
 		}
 	}
 
 	function onCheckboxClicked() {
 		isTaskCompleted = !isTaskCompleted
-		completeTask(post.id, isTaskCompleted)
+		completeTask(post.uuid, isTaskCompleted)
 	}
 
 	const lookView = (
@@ -80,7 +80,7 @@ function Task({ post, editTask, deleteTask, completeTask }) {
 				className="post__time post__time_size_s"
 				dateTime="2022-01-03 19:30"
 			>
-				{new Date(post.time)
+				{new Date(post.createdAt)
 					.toLocaleDateString("us-EN",
 						{ dateStyle: "medium" }
 					)
@@ -88,7 +88,7 @@ function Task({ post, editTask, deleteTask, completeTask }) {
 			</time>
 			<button
 				className="post__delete"
-				onClick={() => deleteTask(post.id)}
+				onClick={() => deleteTask(post.uuid)}
 			>
 				<img
 					className="post__delete-image"

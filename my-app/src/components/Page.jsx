@@ -1,8 +1,7 @@
 function Page({ changeCurrentPage, selected, pageNumber }) {
     let buttonStyles = "pages__page-button pages__page-button_dark";
-    if (selected) {
+    if (selected)
         buttonStyles += " pages__page-button_selected"
-    }
     return (
         <div className="pages__page">
             <button
