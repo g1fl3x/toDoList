@@ -6,42 +6,56 @@ import Pages from "./components/Pages";
 
 function App() {
 	const [tasks, setTasks] = useState([
-		{ id: "sdfghsdfgfdsg", completed: true, text: "Text example", time: 1642676319020 },
-		{ id: "sdfghsdfgdsfjkg", completed: false, text: "Create reactJs App", time: 1642676319056 },
-		{ id: "isgfgsdfsd", completed: false, text: "Fix code", time: 1642676319017 }
+		{ uuid: "sdfghsdfgfdsg", done: true, name: "Text example", createdAt: 1642676319020, updatedAt: 1642676319020 },
+		{ uuid: "sdfghsdfgdsfjkg", done: false, name: "Create reactJs App", createdAt: 1642676319056, updatedAt: 1642676319056 },
+		{ uuid: "isgfgsdfsd", done: false, name: "Fix code", createdAt: 1642676319017, updatedAt: 1642676319017 }
 	])
+
+	const axios = require('axios');
+
+	const tasksOnPage = 10
+	const serverUrl = "https://todo-api-learning.herokuapp.com/v1"
+	const userId = 1
+
+	// const [tasks, setTasks] = useState([])
 	const [currentTasks, setCurrentTasks] = useState(tasks)
 	const [pagesCount, setPagesCount] = useState(1)
 	const [optionsType, setOptionsType] = useState('All')
 	const [sortType, setSortType] = useState('classicSort')
 	const [currentPage, setCurrentPage] = useState(1)
-
-	const tasksOnPage = 10
+	const [appState, setAppState] = useState('fisrt start')
 
 	useEffect(() => {
 
-		const filteredTasks = tasks.filter(item => optionsFilter(item, optionsType))
-		const filteredTasksLen = filteredTasks.length
-
-		const outputTasks = filteredTasks
-			.sort((a, b) => sortFilter(a, b, sortType))
-			.slice((currentPage - 1) * tasksOnPage, currentPage * tasksOnPage)
+		const response = axios.get(`${serverUrl}/tasks/${userId}`)
+		response.then(
+			(response) => {
+				setTasks(response.data)
+				const filteredTasks = response.data.filter(item => optionsFilter(item, optionsType))
+				const filteredTasksLen = filteredTasks.length
 		
-		const pagesFloat = filteredTasksLen / tasksOnPage
-		let pagesCount = filteredTasksLen % tasksOnPage === 0 ? pagesFloat : Math.floor(pagesFloat) + 1
-		if (pagesCount < 1) {
-			setOptionsType('All') // go to all screen
-			pagesCount = 1
-		}
-		if (pagesCount < currentPage) {
-			setCurrentPage(pagesCount)
-		}
+				const outputTasks = filteredTasks
+					.sort((a, b) => sortFilter(a, b, sortType))
+					.slice((currentPage - 1) * tasksOnPage, currentPage * tasksOnPage)
+		
+				const pagesFloat = filteredTasksLen / tasksOnPage
+				let pagesCount = filteredTasksLen % tasksOnPage === 0 ? pagesFloat : Math.floor(pagesFloat) + 1
+				if (pagesCount < 1) {
+					setOptionsType('All') // go to all screen
+					pagesCount = 1
+				}
+				if (pagesCount < currentPage) {
+					setCurrentPage(pagesCount)
+				}
+		
+				setPagesCount(pagesCount)
+				setCurrentTasks(outputTasks)
+			}, (err) => {
+				console.log(err)
+			}
+		)
 
-		setPagesCount(pagesCount)
-		setCurrentTasks(outputTasks)
-
-	}, [tasks, currentPage, sortType, optionsType])
-
+	}, [setAppState, currentPage, sortType, optionsType])
 
 	// utils
 	function rangomStringId(size) {
@@ -54,24 +68,24 @@ function App() {
 
 	// tasks functions
 	function deleteTask(taskId) {
-		setTasks([...tasks.filter(item => item.id !== taskId)])
+		setTasks([...tasks.filter(item => item.uuid !== taskId)])
 	}
 
 	function addTask(text) {
 		setTasks([...tasks, {
-			id: rangomStringId(32),
-			completed: false,
-			text: text,
-			time: +new Date()
+			uuid: rangomStringId(32),
+			done: false,
+			name: text,
+			createdAt: +new Date()
 		}])
 	}
 
 	function editTask(taskId, text) {
-		setTasks([...tasks.map(item => item.id === taskId ? { ...item, text: text } : item)])
+		setTasks([...tasks.map(item => item.uuid === taskId ? { ...item, name: text } : item)])
 	}
 
 	function completeTask(taskId, complete) {
-		setTasks([...tasks.map(item => item.id === taskId ? { ...item, completed: complete } : item)])
+		setTasks([...tasks.map(item => item.uuid === taskId ? { ...item, done: complete } : item)])
 	}
 
 
@@ -97,11 +111,11 @@ function App() {
 			case 'All':
 				return true
 			case 'Done':
-				if (item.completed)
+				if (item.done)
 					return true
 				return false
 			case 'Undone':
-				if (!item.completed)
+				if (!item.done)
 					return true
 				return false
 		}
