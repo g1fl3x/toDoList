@@ -1,12 +1,16 @@
-function OptionsButton({text, showTasksWithOption}) {
+function OptionsButton({ text, selected, showTasksWithOption }) {
+    let buttonStyles = "search-form-buttons__button search-form-buttons__button_dark"
+    if (selected) {
+        buttonStyles += " search-form-buttons__button_selected"
+    }
     return (
-        <button 
-            className="search-form-buttons__button search-form-buttons__button_dark"
+        <button
+            className={buttonStyles}
             onClick={() => showTasksWithOption(text)}
         >
-        {text}
+            {text}
         </button>
     );
-  }
+}
 
-  export default OptionsButton;
+export default OptionsButton;

@@ -1,9 +1,15 @@
 import Page from './Page'
 
-function Pages({ setCurrentPage, pagesCount }) {
+function Pages({ changeCurrentPage, pagesCount, currentPage }) {
     return (
         [...Array(pagesCount)]
-            .map((_, index) => <Page pageNumber={index + 1} key={index + 1} setCurrentPage={setCurrentPage} />)
+            .map((_, index) =>
+                <Page
+                    pageNumber={index + 1}
+                    key={index}
+                    selected={currentPage === index + 1 ? true : false}
+                    changeCurrentPage={changeCurrentPage}
+                />)
     );
 }
 

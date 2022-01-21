@@ -1,9 +1,13 @@
-function Page({ setCurrentPage, pageNumber }) {
+function Page({ changeCurrentPage, selected, pageNumber }) {
+    let buttonStyles = "pages__page-button pages__page-button_dark";
+    if (selected) {
+        buttonStyles += " pages__page-button_selected"
+    }
     return (
         <div className="pages__page">
             <button
-                className="pages__page-button pages__page-button_dark pages__page-button_selected"
-                onClick={() => setCurrentPage(pageNumber)}
+                className={buttonStyles}
+                onClick={() => changeCurrentPage(pageNumber)}
             >
                 {pageNumber}
             </button>
