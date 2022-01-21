@@ -11,51 +11,37 @@ function App() {
 		{ uuid: "isgfgsdfsd", done: false, name: "Fix code", createdAt: 1642676319017, updatedAt: 1642676319017 }
 	])
 
-	const axios = require('axios');
-
-	const tasksOnPage = 10
-	const serverUrl = "https://todo-api-learning.herokuapp.com/v1"
-	const userId = 1
-
-	// const [tasks, setTasks] = useState([])
 	const [currentTasks, setCurrentTasks] = useState(tasks)
 	const [pagesCount, setPagesCount] = useState(1)
 	const [optionsType, setOptionsType] = useState('All')
 	const [sortType, setSortType] = useState('classicSort')
 	const [currentPage, setCurrentPage] = useState(1)
-	const [appState, setAppState] = useState('fisrt start')
+
+	const tasksOnPage = 5
 
 	useEffect(() => {
 
-		const response = axios.get(`${serverUrl}/tasks/${userId}`)
-		response.then(
-			(response) => {
-				setTasks(response.data)
-				const filteredTasks = response.data.filter(item => optionsFilter(item, optionsType))
-				const filteredTasksLen = filteredTasks.length
-		
-				const outputTasks = filteredTasks
-					.sort((a, b) => sortFilter(a, b, sortType))
-					.slice((currentPage - 1) * tasksOnPage, currentPage * tasksOnPage)
-		
-				const pagesFloat = filteredTasksLen / tasksOnPage
-				let pagesCount = filteredTasksLen % tasksOnPage === 0 ? pagesFloat : Math.floor(pagesFloat) + 1
-				if (pagesCount < 1) {
-					setOptionsType('All') // go to all screen
-					pagesCount = 1
-				}
-				if (pagesCount < currentPage) {
-					setCurrentPage(pagesCount)
-				}
-		
-				setPagesCount(pagesCount)
-				setCurrentTasks(outputTasks)
-			}, (err) => {
-				console.log(err)
-			}
-		)
+		const filteredTasks = tasks.filter(item => optionsFilter(item, optionsType))
+		const filteredTasksLen = filteredTasks.length
 
-	}, [setAppState, currentPage, sortType, optionsType])
+		const outputTasks = filteredTasks
+			.sort((a, b) => sortFilter(a, b, sortType))
+			.slice((currentPage - 1) * tasksOnPage, currentPage * tasksOnPage)
+
+		const pagesFloat = filteredTasksLen / tasksOnPage
+		let pagesCount = filteredTasksLen % tasksOnPage === 0 ? pagesFloat : Math.floor(pagesFloat) + 1
+		if (pagesCount < 1) {
+			setOptionsType('All') // go to all screen
+			pagesCount = 1
+		}
+		if (pagesCount < currentPage) {
+			setCurrentPage(pagesCount)
+		}
+
+		setPagesCount(pagesCount)
+		setCurrentTasks(outputTasks)
+
+	}, [tasks, currentPage, sortType, optionsType])
 
 	// utils
 	function rangomStringId(size) {
