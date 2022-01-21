@@ -3,18 +3,30 @@ import arrow_down from '../images/icons/arrow_down.svg';
 import OptionsButton from './OptionsButton';
 import SortingButton from './SortingButton';
 
-function Sorting({ showTasksWithOption, sortTasks }) {
-
+function Sorting({ showTasksWithOption, sortTasks, optionsType, sortType }) {
     return (
         <aside className="search-form">
             <div className="search-form-buttons">
                 {["All", "Done", "Undone"]
-                    .map((el, i) => <OptionsButton key={i} text={el} showTasksWithOption={showTasksWithOption} />)}
+                    .map((el, i) =>
+                        <OptionsButton
+                            key={i}
+                            text={el}
+                            selected={el === optionsType ? true : false}
+                            showTasksWithOption={showTasksWithOption}
+                        />)}
             </div>
             <div className="search-form-sort">
                 <p className="search-form-sort__text">Sort by Date:</p>
-                <SortingButton type="classicSort" img={arrow_up} sortTasks={sortTasks} />
-                <SortingButton type="reverseSort" img={arrow_down} sortTasks={sortTasks} />
+                {[{ type: "classicSort", img: arrow_up }, { type: "reverseSort", img: arrow_down }]
+                    .map((el, i) =>
+                        <SortingButton
+                            key={i}
+                            type={el.type}
+                            img={el.img}
+                            selected={el.type === sortType ? true : false}
+                            sortTasks={sortTasks}
+                        />)}
             </div>
         </aside>
     );
