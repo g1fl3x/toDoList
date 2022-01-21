@@ -60,11 +60,16 @@ body {
     margin-right: 5px;
 }
 
+.search-form-buttons__button_selected {
+    background-color: rgb(80, 80, 80);
+}
+
 .search-form-sort {
     display: flex;
 }
 
 .search-form-sort__text {
+    margin-right: 5px;
     display: flex;
     align-items: center;
     font-family: Arial;
@@ -76,6 +81,12 @@ body {
     background: none;
     border: 0;
 }
+
+.search-form-sort__button_selected {
+    background-color: rgb(80, 80, 80);
+    border-radius: 2px;
+}
+
 .search-form-sort__image {
     height: 100%;
 }
