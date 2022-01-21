@@ -5,16 +5,16 @@ import TasksList from "./components/TasksList";
 import Pages from "./components/Pages";
 
 function App() {
-	const [tasks, changeTasks] = useState([
+	const [tasks, setTasks] = useState([
 		{ id: "sdfghsdfgfdsg", completed: true, text: "Text example", time: 1642676319020 },
 		{ id: "sdfghsdfgdsfjkg", completed: false, text: "Create reactJs App", time: 1642676319056 },
 		{ id: "isgfgsdfsd", completed: false, text: "Fix code", time: 1642676319017 }
 	])
-	const [currentTasks, changeCurrentTasks] = useState(tasks)
+	const [currentTasks, setCurrentTasks] = useState(tasks)
 	const [pagesCount, setPagesCount] = useState(1)
 	const [optionsType, setOptionsType] = useState('All')
 	const [sortType, setSortType] = useState('classicSort')
-	const [currentPage, changeCurrentPage] = useState(1)
+	const [currentPage, setCurrentPage] = useState(1)
 
 	const tasksOnPage = 10
 
@@ -34,11 +34,11 @@ function App() {
 			pagesCount = 1
 		}
 		if (pagesCount < currentPage) {
-			changeCurrentPage(pagesCount)
+			setCurrentPage(pagesCount)
 		}
 
 		setPagesCount(pagesCount)
-		changeCurrentTasks(outputTasks)
+		setCurrentTasks(outputTasks)
 
 	}, [tasks, currentPage, sortType, optionsType])
 
@@ -54,11 +54,11 @@ function App() {
 
 	// tasks functions
 	function deleteTask(taskId) {
-		changeTasks([...tasks.filter(item => item.id !== taskId)])
+		setTasks([...tasks.filter(item => item.id !== taskId)])
 	}
 
 	function addTask(text) {
-		changeTasks([...tasks, {
+		setTasks([...tasks, {
 			id: rangomStringId(32),
 			completed: false,
 			text: text,
@@ -67,11 +67,11 @@ function App() {
 	}
 
 	function editTask(taskId, text) {
-		changeTasks([...tasks.map(item => item.id === taskId ? { ...item, text: text } : item)])
+		setTasks([...tasks.map(item => item.id === taskId ? { ...item, text: text } : item)])
 	}
 
 	function completeTask(taskId, complete) {
-		changeTasks([...tasks.map(item => item.id === taskId ? { ...item, completed: complete } : item)])
+		setTasks([...tasks.map(item => item.id === taskId ? { ...item, completed: complete } : item)])
 	}
 
 
@@ -109,8 +109,8 @@ function App() {
 
 	// pages
 
-	function setCurrentPage(pageNumber) {
-		changeCurrentPage(pageNumber)
+	function changeCurrentPage(pageNumber) {
+		setCurrentPage(pageNumber)
 	}
 
 	return (
@@ -123,6 +123,8 @@ function App() {
 			<Sorting
 				showTasksWithOption={showTasksWithOption}
 				sortTasks={sortTasks}
+				optionsType={optionsType}
+				sortType={sortType}
 			/>
 
 			<main className="main">
@@ -138,7 +140,8 @@ function App() {
 				<div className="pages__block pages__block_dark">
 					<Pages
 						pagesCount={pagesCount}
-						setCurrentPage={setCurrentPage}
+						changeCurrentPage={changeCurrentPage}
+						currentPage={currentPage}
 					/>
 				</div>
 			</nav>
