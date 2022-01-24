@@ -20,81 +20,87 @@ function App() {
 	const userId = 1
 
 	useEffect(() => {
-		axios.get(`${apiUrl}/tasks/${userId}`, {
-			params: {
-				filterBy: optionsType === 'all' ? '' : optionsType,
-				order: sortType,
-				pp: tasksOnPage,
-				page: currentPage
-			}
-		}).then(response => {
-			let updatedPagesCount = Math.ceil(response.data.count / tasksOnPage)
-			if (updatedPagesCount < 1 && optionsType !== 'all') {
-				setOptionsType('all')
-			}
-			if (updatedPagesCount < 1) {
-				updatedPagesCount = 1
-			}
-			setPagesCount(updatedPagesCount)
+		getTasks(optionsType, sortType, tasksOnPage, currentPage).then(
+			response => {
+				let updatedPagesCount = Math.ceil(response.data.count / tasksOnPage)
+				if (updatedPagesCount < 1 && optionsType !== 'all') {
+					setOptionsType('all')
+				}
+				if (updatedPagesCount < 1) {
+					updatedPagesCount = 1
+				}
+				setPagesCount(updatedPagesCount)
 
-			if (currentPage > updatedPagesCount) {
-				setCurrentPage(updatedPagesCount)
-			}
+				if (currentPage > updatedPagesCount) {
+					setCurrentPage(updatedPagesCount)
+				}
 
-			setCurrentTasks(response.data.tasks)
-			setTasks(response.data.tasks)
-		}, err => {
-			console.log(err)
-		})
+				setCurrentTasks(response.data.tasks)
+				setTasks(response.data.tasks)
+			}
+		)
 
 	}, [currentPage, optionsType, sortType, update])
 
 
 	// tasks
-	function deleteTask(taskId) {
-		axios.delete(`${apiUrl}/task/${userId}/${taskId}`).then(
-			() => {
-				setUpdate([])
-			}, (err) => {
-				console.log(err)
-			}
-		)
+	async function getTasks(filterBy, order, pp, page) {
+		try {
+			const response = await axios.get(`${apiUrl}/tasks/${userId}`, {
+				params: {
+					filterBy: optionsType === 'all' ? '' : optionsType,
+					order: sortType,
+					pp: tasksOnPage,
+					page: currentPage
+				}
+			})
+			return response
+		} catch (err) {
+			console.log(err)
+			return { data: [] }
+		}
 	}
 
-	function addTask(text) {
+	async function deleteTask(taskId) {
+		try {
+			await axios.delete(`${apiUrl}/task/${userId}/${taskId}`)
+			setUpdate([])
+		} catch (err) {
+			console.log(err)
+		}
+	}
+
+	async function addTask(text) {
 		const newTask = {
 			done: false,
 			name: text,
 		}
-		axios.post(`${apiUrl}/task/${userId}`, newTask).then(
-			() => {
-				setUpdate([])
-			}, (err) => {
-				console.log(err)
-			}
-		)
+		try {
+			await axios.post(`${apiUrl}/task/${userId}`, newTask)
+			setUpdate([])
+		} catch (err) {
+			console.log(err)
+		}
 	}
 
-	function editTask(taskId, text) {
+	async function editTask(taskId, text) {
 		const editedTask = { name: text }
-		axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask).then(
-			() => {
-				setUpdate([])
-			}, (err) => {
-				console.log(err)
-			}
-		)
+		try {
+			await axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask)
+			setUpdate([])
+		} catch (err) {
+			console.log(err)
+		}
 	}
 
-	function completeTask(taskId, complete) {
+	async function completeTask(taskId, complete) {
 		const editedTask = { done: complete }
-		axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask).then(
-			() => {
-				setUpdate([])
-			}, (err) => {
-				console.log(err)
-			}
-		)
+		try {
+			await axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask)
+			setUpdate([])
+		} catch (err) {
+			console.log(err)
+		}
 	}
 
 
