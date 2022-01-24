@@ -23,9 +23,9 @@ function App() {
 		getTasks(optionsType, sortType, tasksOnPage, currentPage).then(
 			response => {
 				let updatedPagesCount = Math.ceil(response.data.count / tasksOnPage)
-				if (updatedPagesCount < 1 && optionsType !== 'all') {
-					setOptionsType('all')
-				}
+				// if (updatedPagesCount < 1 && optionsType !== 'all') {
+				// 	setOptionsType('all')
+				// }
 				if (updatedPagesCount < 1) {
 					updatedPagesCount = 1
 				}
@@ -48,7 +48,7 @@ function App() {
 		try {
 			const response = await axios.get(`${apiUrl}/tasks/${userId}`, {
 				params: {
-					filterBy: filterBy === 'all' ? '' : optionsType,
+					filterBy: filterBy === 'all' ? '' : filterBy,
 					order: order,
 					pp: pp,
 					page: page
@@ -56,7 +56,7 @@ function App() {
 			})
 			return response
 		} catch (err) {
-			console.log(err)
+			alert(err)
 			return { data: [] }
 		}
 	}
@@ -66,7 +66,7 @@ function App() {
 			await axios.delete(`${apiUrl}/task/${userId}/${taskId}`)
 			setUpdate([])
 		} catch (err) {
-			console.log(err)
+			alert(err)
 		}
 	}
 
@@ -79,7 +79,7 @@ function App() {
 			await axios.post(`${apiUrl}/task/${userId}`, newTask)
 			setUpdate([])
 		} catch (err) {
-			console.log(err)
+			alert(err)
 		}
 	}
 
@@ -89,7 +89,7 @@ function App() {
 			await axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask)
 			setUpdate([])
 		} catch (err) {
-			console.log(err)
+			alert(err)
 		}
 	}
 
@@ -99,7 +99,7 @@ function App() {
 			await axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask)
 			setUpdate([])
 		} catch (err) {
-			console.log(err)
+			alert(err)
 		}
 	}
 
