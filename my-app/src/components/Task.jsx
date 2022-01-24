@@ -25,7 +25,7 @@ function Task({ post, editTask, deleteTask, completeTask }) {
 
 	function handleKeyDown(event) {
 		if (event.keyCode === 13) {
-			editTask(post.uuid, event.currentTarget.value)
+			editTask(post.uuid, event.currentTarget.value.trim())
 			edited = true
 			event.currentTarget.blur()
 		}
