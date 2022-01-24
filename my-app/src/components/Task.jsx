@@ -23,6 +23,13 @@ function Task({ post, editTask, deleteTask, completeTask }) {
 		setTaskText(e.currentTarget.value)
 	}
 
+	function handleOnDelete(e) {
+		if (!e.currentTarget.disabled) {
+			e.currentTarget.disabled = true
+			deleteTask(post.uuid)
+		}
+	}
+
 	function handleKeyDown(event) {
 		if (event.keyCode === 13) {
 			editTask(post.uuid, event.currentTarget.value.trim())
@@ -88,7 +95,7 @@ function Task({ post, editTask, deleteTask, completeTask }) {
 			</time>
 			<button
 				className="post__delete"
-				onClick={() => deleteTask(post.uuid)}
+				onClick={handleOnDelete}
 			>
 				<img
 					className="post__delete-image"
