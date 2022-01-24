@@ -5,73 +5,97 @@ import TasksList from "./components/TasksList";
 import Pages from "./components/Pages";
 
 function App() {
-	const [tasks, setTasks] = useState([
-		{ uuid: "sdfghsdfgfdsg", done: true, name: "Text example", createdAt: 1642676319020, updatedAt: 1642676319020 },
-		{ uuid: "sdfghsdfgdsfjkg", done: false, name: "Create reactJs App", createdAt: 1642676319056, updatedAt: 1642676319056 },
-		{ uuid: "isgfgsdfsd", done: false, name: "Fix code", createdAt: 1642676319017, updatedAt: 1642676319017 }
-	])
+	const [tasks, setTasks] = useState([])
+
+	const axios = require('axios');
+	const apiUrl = 'https://todo-api-learning.herokuapp.com/v1';
+	const userId = 1
 
 	const [currentTasks, setCurrentTasks] = useState(tasks)
-	const [pagesCount, setPagesCount] = useState(1)
-	const [optionsType, setOptionsType] = useState('All')
-	const [sortType, setSortType] = useState('classicSort')
+	const [pagesCount, setPagesCount] = useState(0)
+	const [optionsType, setOptionsType] = useState('all')
+	const [sortType, setSortType] = useState('asc')
 	const [currentPage, setCurrentPage] = useState(1)
+	const [update, setUpdate] = useState([])
 
 	const tasksOnPage = 5
 
 	useEffect(() => {
+		axios.get(`${apiUrl}/tasks/${userId}`, {
+			params: {
+				filterBy: optionsType === 'all' ? '' : optionsType,
+				order: sortType,
+				pp: tasksOnPage,
+				page: currentPage
+			}
+		}).then((response) => {
+			let updatedPagesCount = Math.ceil(response.data.count / tasksOnPage)
+			if (updatedPagesCount < 1 && optionsType !== 'all') {
+				setOptionsType('all')
+			}
+			if (updatedPagesCount < 1) {
+				updatedPagesCount = 1
+			}
+			setPagesCount(updatedPagesCount)
 
-		const filteredTasks = tasks.filter(item => optionsFilter(item, optionsType))
-		const filteredTasksLen = filteredTasks.length
+			if (currentPage > updatedPagesCount) {
+				setCurrentPage(updatedPagesCount)
+			}
 
-		const outputTasks = filteredTasks
-			.sort((a, b) => sortFilter(a, b, sortType))
-			.slice((currentPage - 1) * tasksOnPage, currentPage * tasksOnPage)
+			setCurrentTasks(response.data.tasks)
+			setTasks(response.data.tasks)
+		})
+			.catch((err) => {
+				console.log(err);
+			})
 
-		const pagesFloat = filteredTasksLen / tasksOnPage
-		let pagesCount = filteredTasksLen % tasksOnPage === 0 ? pagesFloat : Math.floor(pagesFloat) + 1
-		if (pagesCount < 1) {
-			setOptionsType('All') // go to all screen
-			pagesCount = 1
-		}
-		if (pagesCount < currentPage) {
-			setCurrentPage(pagesCount)
-		}
-
-		setPagesCount(pagesCount)
-		setCurrentTasks(outputTasks)
-
-	}, [tasks, currentPage, sortType, optionsType])
-
-	// utils
-	function rangomStringId(size) {
-		let rnd = '';
-		while (rnd.length < size)
-			rnd += Math.random().toString(36).substring(2);
-		return rnd.substring(0, size);
-	};
-
+	}, [currentPage, optionsType, sortType, update])
 
 	// tasks functions
 	function deleteTask(taskId) {
-		setTasks([...tasks.filter(item => item.uuid !== taskId)])
+		axios.delete(`${apiUrl}/task/${userId}/${taskId}`).then(
+			() => {
+				setUpdate([])
+			}, (err) => {
+				console.log(err)
+			}
+		)
 	}
 
 	function addTask(text) {
-		setTasks([...tasks, {
-			uuid: rangomStringId(32),
+		const newTask = {
 			done: false,
 			name: text,
-			createdAt: +new Date()
-		}])
+		}
+		axios.post(`${apiUrl}/task/${userId}`, newTask).then(
+			() => {
+				setUpdate([])
+			}, (err) => {
+				console.log(err)
+			}
+		)
 	}
 
 	function editTask(taskId, text) {
-		setTasks([...tasks.map(item => item.uuid === taskId ? { ...item, name: text } : item)])
+		const editedTask = {name: text}
+		axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask).then(
+			() => {
+				setUpdate([])
+			}, (err) => {
+				console.log(err)
+			}
+		)
 	}
 
 	function completeTask(taskId, complete) {
-		setTasks([...tasks.map(item => item.uuid === taskId ? { ...item, done: complete } : item)])
+		const editedTask = {done: complete}
+		axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask).then(
+			() => {
+				setUpdate([])
+			}, (err) => {
+				console.log(err)
+			}
+		)
 	}
 
 
@@ -83,31 +107,6 @@ function App() {
 	function sortTasks(type) {
 		setSortType(type)
 	}
-
-	function sortFilter(a, b, type) {
-		if (type === 'reverseSort') {
-			if (a > b)
-				return 1
-			return -1
-		}
-	}
-
-	function optionsFilter(item, type) {
-		switch (type) {
-			case 'All':
-				return true
-			case 'Done':
-				if (item.done)
-					return true
-				return false
-			case 'Undone':
-				if (!item.done)
-					return true
-				return false
-		}
-	}
-
-	// pages
 
 	function changeCurrentPage(pageNumber) {
 		setCurrentPage(pageNumber)
