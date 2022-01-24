@@ -1,6 +1,6 @@
 import Page from './Page'
 
-function Pages({ changeCurrentPage, pagesCount, currentPage }) {
+function Pagination({ changeCurrentPage, pagesCount, currentPage }) {
     return (
         [...Array(pagesCount)]
             .map((_, index) =>
@@ -13,4 +13,4 @@ function Pages({ changeCurrentPage, pagesCount, currentPage }) {
     );
 }
 
-export default Pages;
+export default Pagination;

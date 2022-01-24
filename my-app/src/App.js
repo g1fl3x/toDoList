@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import AddTask from "./components/AddTask";
 import Sorting from "./components/Sorting";
 import TasksList from "./components/TasksList";
-import Pages from "./components/Pages";
+import Pagination from "./components/Pagination";
 
 function App() {
 	const [tasks, setTasks] = useState([])
@@ -137,7 +137,7 @@ function App() {
 
 			<nav className="pages">
 				<div className="pages__block pages__block_dark">
-					<Pages
+					<Pagination
 						pagesCount={pagesCount}
 						changeCurrentPage={changeCurrentPage}
 						currentPage={currentPage}
