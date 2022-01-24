@@ -145,7 +145,7 @@ function App() {
 			<nav className="pages">
 				<div className="pages__block pages__block_dark">
 					<Pagination
-						pagesCount={pagesCount}
+						pagesCount={pagesCount === 1 ? 0: pagesCount}
 						changeCurrentPage={changeCurrentPage}
 						currentPage={currentPage}
 					/>
