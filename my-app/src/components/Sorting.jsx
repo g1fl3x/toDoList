@@ -18,7 +18,8 @@ function Sorting({ showTasksWithOption, sortTasks, optionsType, sortType }) {
             </div>
             <div className="search-form-sort">
                 <p className="search-form-sort__text">Sort by Date:</p>
-                {[{ type: "classicSort", img: arrow_up }, { type: "reverseSort", img: arrow_down }]
+                {[{ type: "asc", img: arrow_up },
+                { type: "desc", img: arrow_down }]
                     .map((el, i) =>
                         <SortingButton
                             key={i}

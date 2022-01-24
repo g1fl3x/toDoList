@@ -5,7 +5,7 @@ function OptionsButton({ text, selected, showTasksWithOption }) {
     return (
         <button
             className={buttonStyles}
-            onClick={() => showTasksWithOption(text)}
+            onClick={() => showTasksWithOption(text.toLowerCase())}
         >
             {text}
         </button>
