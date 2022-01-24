@@ -5,20 +5,19 @@ import TasksList from "./components/TasksList";
 import Pagination from "./components/Pagination";
 
 function App() {
-	const [tasks, setTasks] = useState([])
-
 	const axios = require('axios');
-	const apiUrl = 'https://todo-api-learning.herokuapp.com/v1';
-	const userId = 1
 
+	const [tasks, setTasks] = useState([])
 	const [currentTasks, setCurrentTasks] = useState(tasks)
-	const [pagesCount, setPagesCount] = useState(0)
+	const [pagesCount, setPagesCount] = useState(1)
 	const [optionsType, setOptionsType] = useState('all')
 	const [sortType, setSortType] = useState('asc')
 	const [currentPage, setCurrentPage] = useState(1)
 	const [update, setUpdate] = useState([])
 
-	const tasksOnPage = 5
+	const tasksOnPage = 10
+	const apiUrl = 'https://todo-api-learning.herokuapp.com/v1';
+	const userId = 1
 
 	useEffect(() => {
 		axios.get(`${apiUrl}/tasks/${userId}`, {
@@ -28,7 +27,7 @@ function App() {
 				pp: tasksOnPage,
 				page: currentPage
 			}
-		}).then((response) => {
+		}).then(response => {
 			let updatedPagesCount = Math.ceil(response.data.count / tasksOnPage)
 			if (updatedPagesCount < 1 && optionsType !== 'all') {
 				setOptionsType('all')
@@ -44,14 +43,14 @@ function App() {
 
 			setCurrentTasks(response.data.tasks)
 			setTasks(response.data.tasks)
+		}, err => {
+			console.log(err)
 		})
-			.catch((err) => {
-				console.log(err);
-			})
 
 	}, [currentPage, optionsType, sortType, update])
 
-	// tasks functions
+
+	// tasks
 	function deleteTask(taskId) {
 		axios.delete(`${apiUrl}/task/${userId}/${taskId}`).then(
 			() => {
@@ -77,7 +76,7 @@ function App() {
 	}
 
 	function editTask(taskId, text) {
-		const editedTask = {name: text}
+		const editedTask = { name: text }
 		axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask).then(
 			() => {
 				setUpdate([])
@@ -88,7 +87,7 @@ function App() {
 	}
 
 	function completeTask(taskId, complete) {
-		const editedTask = {done: complete}
+		const editedTask = { done: complete }
 		axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask).then(
 			() => {
 				setUpdate([])
@@ -99,7 +98,7 @@ function App() {
 	}
 
 
-	// filter functions
+	// filter
 	function showTasksWithOption(type) {
 		setOptionsType(type)
 	}
@@ -108,6 +107,8 @@ function App() {
 		setSortType(type)
 	}
 
+
+	// pagination
 	function changeCurrentPage(pageNumber) {
 		setCurrentPage(pageNumber)
 	}
