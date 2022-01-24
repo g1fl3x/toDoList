@@ -12,7 +12,7 @@ function Sorting({ showTasksWithOption, sortTasks, optionsType, sortType }) {
                         <OptionsButton
                             key={i}
                             text={el}
-                            selected={el === optionsType ? true : false}
+                            selected={el.toLowerCase() === optionsType ? true : false}
                             showTasksWithOption={showTasksWithOption}
                         />)}
             </div>
