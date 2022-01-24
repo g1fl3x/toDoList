@@ -78,7 +78,7 @@ function Task({ post, editTask, deleteTask, completeTask }) {
 					className="post__apply-checkbox"
 					checked={isTaskCompleted}
 					onClick={onCheckboxClicked}
-					onChange={() => 1}
+					onChange={() => {}}
 					type="checkbox"
 				/>
 			</div>
