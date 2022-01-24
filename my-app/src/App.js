@@ -48,10 +48,10 @@ function App() {
 		try {
 			const response = await axios.get(`${apiUrl}/tasks/${userId}`, {
 				params: {
-					filterBy: optionsType === 'all' ? '' : optionsType,
-					order: sortType,
-					pp: tasksOnPage,
-					page: currentPage
+					filterBy: filterBy === 'all' ? '' : optionsType,
+					order: order,
+					pp: pp,
+					page: page
 				}
 			})
 			return response
