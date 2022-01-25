@@ -4,6 +4,8 @@ import Sorting from "./components/Sorting";
 import TasksList from "./components/TasksList";
 import Pagination from "./components/Pagination";
 
+// npm run deploy
+
 function App() {
 	const axios = require('axios');
 
@@ -15,30 +17,27 @@ function App() {
 	const [currentPage, setCurrentPage] = useState(1)
 	const [update, setUpdate] = useState([])
 
-	const tasksOnPage = 10
+	const tasksOnPage = 5
 	const apiUrl = 'https://todo-api-learning.herokuapp.com/v1';
 	const userId = 1
 
-	useEffect(() => {
-		getTasks(optionsType, sortType, tasksOnPage, currentPage).then(
-			response => {
-				let updatedPagesCount = Math.ceil(response.data.count / tasksOnPage)
-				// if (updatedPagesCount < 1 && optionsType !== 'all') {
-				// 	setOptionsType('all')
-				// }
-				if (updatedPagesCount < 1) {
-					updatedPagesCount = 1
-				}
-				setPagesCount(updatedPagesCount)
+	useEffect(async () => {
+		const response = await getTasks(optionsType, sortType, tasksOnPage, currentPage)
+		let updatedPagesCount = Math.ceil(response.data.count / tasksOnPage)
+		// if (updatedPagesCount < 1 && optionsType !== 'all') {
+		// 	setOptionsType('all')
+		// }
+		if (updatedPagesCount < 1) {
+			updatedPagesCount = 1
+		}
+		setPagesCount(updatedPagesCount)
 
-				if (currentPage > updatedPagesCount) {
-					setCurrentPage(updatedPagesCount)
-				}
+		if (currentPage > updatedPagesCount) {
+			setCurrentPage(updatedPagesCount)
+		}
 
-				setCurrentTasks(response.data.tasks)
-				setTasks(response.data.tasks)
-			}
-		)
+		setCurrentTasks(response.data.tasks)
+		setTasks(response.data.tasks)
 
 	}, [currentPage, optionsType, sortType, update])
 
@@ -64,10 +63,10 @@ function App() {
 	async function deleteTask(taskId) {
 		try {
 			await axios.delete(`${apiUrl}/task/${userId}/${taskId}`)
-			setUpdate([])
 		} catch (err) {
 			alert(err)
 		}
+		setUpdate([])
 	}
 
 	async function addTask(text) {
@@ -77,30 +76,30 @@ function App() {
 		}
 		try {
 			await axios.post(`${apiUrl}/task/${userId}`, newTask)
-			setUpdate([])
 		} catch (err) {
 			alert(err)
 		}
+		setUpdate([])
 	}
 
 	async function editTask(taskId, text) {
 		const editedTask = { name: text }
 		try {
 			await axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask)
-			setUpdate([])
 		} catch (err) {
 			alert(err)
 		}
+		setUpdate([])
 	}
 
 	async function completeTask(taskId, complete) {
 		const editedTask = { done: complete }
 		try {
 			await axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask)
-			setUpdate([])
 		} catch (err) {
 			alert(err)
 		}
+		setUpdate([])
 	}
 
 
@@ -145,7 +144,7 @@ function App() {
 			<nav className="pages">
 				<div className="pages__block pages__block_dark">
 					<Pagination
-						pagesCount={pagesCount === 1 ? 0: pagesCount}
+						pagesCount={pagesCount === 1 ? 0 : pagesCount}
 						changeCurrentPage={changeCurrentPage}
 						currentPage={currentPage}
 					/>
