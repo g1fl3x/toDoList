@@ -1,13 +1,13 @@
 import { Input } from 'antd'
 import { useState } from 'react';
 
-function AddTask({addTask}) {
+function AddTask({ addTask }) {
 
     const [inputValue, setInputValue] = useState('')
 
-	function handleOnChange(e) {
-		setInputValue(e.currentTarget.value)
-	}
+    function handleOnChange(e) {
+        setInputValue(e.currentTarget.value)
+    }
 
     function handleKeyDown(event) {
         if (event.keyCode === 13) {
@@ -19,16 +19,13 @@ function AddTask({addTask}) {
     }
 
     return (
-        <div>
-            <Input 
-                value={inputValue}
-                placeholder='I want to...' 
-                onKeyDown={handleKeyDown}
-                onChange={handleOnChange}
-            />
-        </div>
+        <Input
+            value={inputValue}
+            placeholder='I want to...'
+            onKeyDown={handleKeyDown}
+            onChange={handleOnChange}
+        />
     );
-  }
-  
-  export default AddTask;
-  
+}
+
+export default AddTask;
