@@ -42,6 +42,25 @@ function App() {
 	}, [currentPage, optionsType, sortType, update])
 
 
+	// errors
+	function handlerError(err) {
+		const response = err.request.response
+		let errorText
+		if (response === undefined) {
+			return "Internal Error"
+		}
+		try {
+			errorText = JSON.parse(response).message
+		} catch(e) {
+			return "Json parse error"
+		}
+		if (errorText === undefined) {
+			return "Json doesn't contain error text"
+		}
+		return errorText
+	}
+
+
 	// tasks
 	async function getTasks(filterBy, order, pp, page) {
 		try {
@@ -77,7 +96,7 @@ function App() {
 		try {
 			await axios.post(`${apiUrl}/task/${userId}`, newTask)
 		} catch (err) {
-			alert(err)
+			alert(handlerError(err))
 		}
 		setUpdate([])
 	}
@@ -87,7 +106,7 @@ function App() {
 		try {
 			await axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask)
 		} catch (err) {
-			alert(err)
+			alert(handlerError(err))
 		}
 		setUpdate([])
 	}
@@ -97,7 +116,7 @@ function App() {
 		try {
 			await axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask)
 		} catch (err) {
-			alert(err)
+			alert(handlerError(err))
 		}
 		setUpdate([])
 	}
