@@ -10,7 +10,6 @@ function App() {
 	const axios = require('axios');
 
 	const [tasks, setTasks] = useState([])
-	const [currentTasks, setCurrentTasks] = useState(tasks)
 	const [pagesCount, setPagesCount] = useState(1)
 	const [optionsType, setOptionsType] = useState('all')
 	const [sortType, setSortType] = useState('asc')
@@ -36,7 +35,6 @@ function App() {
 			setCurrentPage(updatedPagesCount)
 		}
 
-		setCurrentTasks(response.data.tasks)
 		setTasks(response.data.tasks)
 
 	}, [currentPage, optionsType, sortType, update])
@@ -74,7 +72,7 @@ function App() {
 			})
 			return response
 		} catch (err) {
-			alert(err)
+			alert(handlerError(err))
 			return { data: [] }
 		}
 	}
@@ -153,7 +151,7 @@ function App() {
 
 			<main className="main">
 				<TasksList
-					posts={currentTasks}
+					posts={tasks}
 					editTask={editTask}
 					deleteTask={deleteTask}
 					completeTask={completeTask}
