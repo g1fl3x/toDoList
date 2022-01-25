@@ -137,7 +137,7 @@ function App() {
 	return (
 		<div className="centered centered_styles">
 			<Divider>
-				ToDo
+				<h2>ToDo</h2>
 			</Divider>
 			<Space direction="vertical" style={{ width: '100%' }}>
 				<AddTask addTask={addTask} />
