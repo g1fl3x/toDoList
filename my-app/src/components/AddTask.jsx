@@ -5,10 +5,6 @@ function AddTask({ addTask }) {
 
     const [inputValue, setInputValue] = useState('')
 
-    function handleOnChange(e) {
-        setInputValue(e.currentTarget.value)
-    }
-
     function handleKeyDown(event) {
         if (event.keyCode === 13) {
             const filteredInputText = inputValue.trim()
@@ -23,7 +19,6 @@ function AddTask({ addTask }) {
             value={inputValue}
             placeholder='I want to...'
             onKeyDown={handleKeyDown}
-            onChange={handleOnChange}
         />
     );
 }
