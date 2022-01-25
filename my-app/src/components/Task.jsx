@@ -31,12 +31,12 @@ function Task({ post, editTask, deleteTask, completeTask }) {
 	}
 
 	function handleKeyDown(event) {
-		if (event.keyCode === 13) {
+		if (event.keyCode === 13) { //Enter
 			editTask(post.uuid, event.currentTarget.value.trim())
 			edited = true
 			event.currentTarget.blur()
 		}
-		if (event.keyCode === 27) {
+		if (event.keyCode === 27) { //ESC
 			setTaskText(post.name)
 			event.currentTarget.blur()
 		}
@@ -78,7 +78,7 @@ function Task({ post, editTask, deleteTask, completeTask }) {
 					className="post__apply-checkbox"
 					checked={isTaskCompleted}
 					onClick={onCheckboxClicked}
-					onChange={() => {}}
+					onChange={() => { }}
 					type="checkbox"
 				/>
 			</div>
