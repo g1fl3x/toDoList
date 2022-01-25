@@ -1,17 +1,14 @@
-function SortingButton({ type, img, selected, sortTasks }) {
-	let buttonStyles = "search-form-sort__button"
-	if (selected)
-		buttonStyles += " search-form-sort__button_selected"
+import { Button } from 'antd';
+import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
+
+function SortingButton({ type, selected, sortTasks }) {
 	return (
-		<button
-			className={buttonStyles}
+		<Button
+			type={selected ? 'primary': ''}
+			icon={type === 'asc'? <ArrowUpOutlined />: <ArrowDownOutlined />}
 			onClick={() => sortTasks(type)}
 		>
-			<img
-				className="search-form-sort__image"
-				src={img}
-			/>
-		</button>
+		</Button>
 	);
 }
 

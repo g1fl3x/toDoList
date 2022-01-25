@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import AddTask from "./components/AddTask";
 import Sorting from "./components/Sorting";
 import TasksList from "./components/TasksList";
-import Pagination from "./components/Pagination";
+import { message, Pagination, Space, Divider } from 'antd'
+
 
 // npm run deploy
 
@@ -10,7 +11,7 @@ function App() {
 	const axios = require('axios');
 
 	const [tasks, setTasks] = useState([])
-	const [pagesCount, setPagesCount] = useState(1)
+	const [tasksLen, setTasksLen] = useState(0)
 	const [optionsType, setOptionsType] = useState('all')
 	const [sortType, setSortType] = useState('asc')
 	const [currentPage, setCurrentPage] = useState(1)
@@ -23,13 +24,11 @@ function App() {
 	useEffect(async () => {
 		const response = await getTasks(optionsType, sortType, tasksOnPage, currentPage)
 		let updatedPagesCount = Math.ceil(response.data.count / tasksOnPage)
-		// if (updatedPagesCount < 1 && optionsType !== 'all') {
-		// 	setOptionsType('all')
-		// }
+
 		if (updatedPagesCount < 1) {
 			updatedPagesCount = 1
 		}
-		setPagesCount(updatedPagesCount)
+		setTasksLen(response.data.count)
 
 		if (currentPage > updatedPagesCount) {
 			setCurrentPage(updatedPagesCount)
@@ -49,13 +48,13 @@ function App() {
 		}
 		try {
 			errorText = JSON.parse(response).message
-		} catch(e) {
+		} catch (e) {
 			return "Json parse error"
 		}
 		if (errorText === undefined) {
 			return "Json doesn't contain error text"
 		}
-		return errorText
+		message.error(errorText, 3)
 	}
 
 
@@ -72,7 +71,7 @@ function App() {
 			})
 			return response
 		} catch (err) {
-			alert(handlerError(err))
+			handlerError(err)
 			return { data: [] }
 		}
 	}
@@ -81,7 +80,7 @@ function App() {
 		try {
 			await axios.delete(`${apiUrl}/task/${userId}/${taskId}`)
 		} catch (err) {
-			alert(err)
+			handlerError(err)
 		}
 		setUpdate([])
 	}
@@ -94,7 +93,7 @@ function App() {
 		try {
 			await axios.post(`${apiUrl}/task/${userId}`, newTask)
 		} catch (err) {
-			alert(handlerError(err))
+			handlerError(err)
 		}
 		setUpdate([])
 	}
@@ -104,7 +103,7 @@ function App() {
 		try {
 			await axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask)
 		} catch (err) {
-			alert(handlerError(err))
+			handlerError(err)
 		}
 		setUpdate([])
 	}
@@ -114,7 +113,7 @@ function App() {
 		try {
 			await axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask)
 		} catch (err) {
-			alert(handlerError(err))
+			handlerError(err)
 		}
 		setUpdate([])
 	}
@@ -137,36 +136,39 @@ function App() {
 
 	return (
 		<div className="centered centered_styles">
-			<header className="header">
-				<h1>ToDo</h1>
-			</header>
-			<AddTask addTask={addTask} />
+			<Divider>
+				ToDo
+			</Divider>
+			<Space direction="vertical" style={{ width: '100%' }}>
+				<AddTask addTask={addTask} />
 
-			<Sorting
-				showTasksWithOption={showTasksWithOption}
-				sortTasks={sortTasks}
-				optionsType={optionsType}
-				sortType={sortType}
-			/>
-
-			<main className="main">
-				<TasksList
-					posts={tasks}
-					editTask={editTask}
-					deleteTask={deleteTask}
-					completeTask={completeTask}
+				<Sorting
+					showTasksWithOption={showTasksWithOption}
+					sortTasks={sortTasks}
+					optionsType={optionsType}
+					sortType={sortType}
 				/>
-			</main>
 
-			<nav className="pages">
-				<div className="pages__block pages__block_dark">
-					<Pagination
-						pagesCount={pagesCount === 1 ? 0 : pagesCount}
-						changeCurrentPage={changeCurrentPage}
-						currentPage={currentPage}
+				<main>
+					<TasksList
+						posts={tasks}
+						editTask={editTask}
+						deleteTask={deleteTask}
+						completeTask={completeTask}
 					/>
-				</div>
-			</nav>
+				</main>
+
+				<Divider>
+					{tasksLen <= tasksOnPage ? <></> :
+						<Pagination
+							total={tasksLen}
+							pageSize={tasksOnPage}
+							onChange={changeCurrentPage}
+							current={currentPage}
+						/>
+					}
+				</Divider>
+			</Space>
 		</div>
 	);
 }
