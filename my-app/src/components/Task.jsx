@@ -34,7 +34,7 @@ function Task({ post, deleteTask, updateTask }) {
 			setInputText(clearedText)
 
 			// onError
-			updateTask(post.uuid, clearedText).then(change => {
+			updateTask(post.uuid, { name: clearedText }).then(change => {
 				if (!change) {
 					setInputText(post.name)
 				}
@@ -46,7 +46,7 @@ function Task({ post, deleteTask, updateTask }) {
 
 	function onCheckboxClicked() {
 		isTaskCompleted = !isTaskCompleted
-		updateTask(post.uuid, null, isTaskCompleted)
+		updateTask(post.uuid, { done: isTaskCompleted })
 	}
 
 	return (

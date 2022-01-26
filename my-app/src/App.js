@@ -91,13 +91,7 @@ function App() {
 		setUpdate([])
 	}
 
-	async function updateTask(taskId, text = null, complete = null) {
-		let editedTask
-		if (text === null) {
-			editedTask = { done: complete }
-		} else {
-			editedTask = { name: text }
-		}
+	async function updateTask(taskId, editedTask) {
 		try {
 			await axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask)
 			setUpdate([])
