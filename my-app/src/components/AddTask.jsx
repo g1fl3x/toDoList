@@ -6,8 +6,11 @@ function AddTask({ addTask }) {
     const [inputText, setInputText] = useState("")
 
     function onEnter(text) {
-        setInputText("")
-        addTask(text)
+        const filteredText = text.trim()
+        if (filteredText !== "") {
+            setInputText("")
+            addTask(text)
+        }
     }
 
     function OnEdit(e) {
