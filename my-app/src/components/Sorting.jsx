@@ -1,25 +1,24 @@
-import OptionsButton from './OptionsButton';
 import SortingButton from './SortingButton';
-import { Typography, Row, Col, Space } from 'antd';
+import { Typography, Row, Col, Space, Radio } from 'antd';
 
 const { Text } = Typography
 
-function Sorting({ showTasksWithOption, sortTasks, optionsType, sortType }) {
+function Sorting({ showTasksWithOption, sortTasks, sortType }) {
+
+    function onOptionSelect(e) {
+        showTasksWithOption(e.target.value.toLowerCase())
+    }
+
     return (
         <Row justify="space-between">
             <Col flex="auto">
-                <Space align="center">
-                    {["All", "Done", "Undone"]
-                        .map((el, i) =>
-                            <OptionsButton
-                                key={i}
-                                text={el}
-                                selected={el.toLowerCase() === optionsType ? true : false}
-                                showTasksWithOption={showTasksWithOption}
-                            />)}
-                </Space>
+                <Radio.Group defaultValue="All" buttonStyle="solid" onChange={onOptionSelect}>
+                    <Radio.Button value="All">All</Radio.Button>
+                    <Radio.Button value="Done">Done</Radio.Button>
+                    <Radio.Button value="Undone">Undone</Radio.Button>
+                </Radio.Group>
             </Col>
-            <Col flex="auto" style={{textAlign: 'right'}}>
+            <Col flex="auto" style={{ textAlign: 'right' }}>
                 <Space align="center">
                     <Text>
                         Sort:
