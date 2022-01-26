@@ -5,14 +5,13 @@ import { useState } from 'react';
 const { Text } = Typography;
 
 function Task({ post, deleteTask, updateTask }) {
-	const [taskText, setTaskText] = useState(post.name);
 	let isTaskCompleted = post.done
 
 	// utils
 	const dateToString = (createdAt) => {
 		return `${createdAt.getHours()}:${createdAt.getMinutes() < 10
-				? '0' + createdAt.getMinutes()
-				: createdAt.getMinutes()
+			? '0' + createdAt.getMinutes()
+			: createdAt.getMinutes()
 			} ${createdAt.getDate()}/${createdAt.getMonth() < 9
 				? '0' + (createdAt.getMonth() + 1)
 				: createdAt.getMonth() + 1
@@ -31,7 +30,6 @@ function Task({ post, deleteTask, updateTask }) {
 	function handleOnTaskEdit(taskText) {
 		const clearedText = taskText.trim()
 		if (clearedText !== "") {
-			setTaskText(clearedText)
 			updateTask(post.uuid, clearedText)
 		}
 	}
@@ -55,7 +53,7 @@ function Task({ post, deleteTask, updateTask }) {
 					onChange: handleOnTaskEdit,
 					triggerType: 'text'
 				}}>
-					{taskText}
+					{post.name}
 				</Text>
 			</Col>
 			<Col flex="120px" style={{ height: 36 }}>
