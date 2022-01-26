@@ -159,14 +159,13 @@ function App() {
 				</main>
 
 				<Divider>
-					{tasksLen <= tasksOnPage ? <></> :
-						<Pagination
-							total={tasksLen}
-							pageSize={tasksOnPage}
-							onChange={changeCurrentPage}
-							current={currentPage}
-						/>
-					}
+					<Pagination
+						total={tasksLen}
+						pageSize={tasksOnPage}
+						onChange={changeCurrentPage}
+						current={currentPage}
+						hideOnSinglePage={true}
+					/>
 				</Divider>
 			</Space>
 		</div>
