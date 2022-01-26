@@ -1,9 +1,11 @@
 import { Checkbox, Typography, Row, Col, Button, message } from 'antd';
 import { DeleteFilled } from '@ant-design/icons';
+import { useState } from 'react';
 
 const { Text } = Typography;
 
 function Task({ post, deleteTask, updateTask }) {
+	const [inputText, setInputText] = useState(post.name)
 	let isTaskCompleted = post.done
 
 	// utils
@@ -29,7 +31,14 @@ function Task({ post, deleteTask, updateTask }) {
 	function handleOnTaskEdit(taskText) {
 		const clearedText = taskText.trim()
 		if (clearedText !== "") {
-			updateTask(post.uuid, clearedText)
+			setInputText(clearedText)
+
+			// onError
+			updateTask(post.uuid, clearedText).then(change => {
+				if (!change) {
+					setInputText(post.name)
+				}
+			})
 		} else {
 			message.error('Task text must not be empty', 3)
 		}
@@ -54,7 +63,7 @@ function Task({ post, deleteTask, updateTask }) {
 					onChange: handleOnTaskEdit,
 					triggerType: 'text'
 				}}>
-					{post.name}
+					{inputText}
 				</Text>
 			</Col>
 			<Col flex="120px" style={{ height: 36 }}>

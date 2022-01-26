@@ -26,7 +26,7 @@ axios.interceptors.response.use(
 			return "Json doesn't contain error text"
 		}
 		message.error(`${errorText}`, 3)
-		return err
+		throw new Error(err);
 	});
 
 function App() {
@@ -72,8 +72,8 @@ function App() {
 				}
 			})
 			return response
-		} catch(err) {
-			return {data: {count: 0, tasks: []}}
+		} catch (err) {
+			return { data: { count: 0, tasks: [] } }
 		}
 	}
 
@@ -98,8 +98,13 @@ function App() {
 		} else {
 			editedTask = { name: text }
 		}
-		await axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask)
-		setUpdate([])
+		try {
+			await axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask)
+			setUpdate([])
+			return true
+		} catch (e) {
+			return false
+		}
 	}
 
 
