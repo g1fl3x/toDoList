@@ -1,4 +1,4 @@
-import { Input } from 'antd'
+import { Input, message } from 'antd'
 import { useState } from 'react';
 
 function AddTask({ addTask }) {
@@ -10,6 +10,8 @@ function AddTask({ addTask }) {
         if (filteredText !== "") {
             setInputText("")
             addTask(text)
+        } else {
+            message.error('Task text must not be empty', 3)
         }
     }
 

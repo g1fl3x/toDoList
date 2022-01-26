@@ -1,6 +1,5 @@
-import { Checkbox, Typography, Row, Col, Button } from 'antd';
+import { Checkbox, Typography, Row, Col, Button, message } from 'antd';
 import { DeleteFilled } from '@ant-design/icons';
-import { useState } from 'react';
 
 const { Text } = Typography;
 
@@ -31,6 +30,8 @@ function Task({ post, deleteTask, updateTask }) {
 		const clearedText = taskText.trim()
 		if (clearedText !== "") {
 			updateTask(post.uuid, clearedText)
+		} else {
+			message.error('Task text must not be empty', 3)
 		}
 	}
 
