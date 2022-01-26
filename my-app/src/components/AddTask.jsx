@@ -10,7 +10,7 @@ function AddTask({ addTask }) {
         addTask(text)
     }
 
-    function handlerOnEdit(e) {
+    function OnEdit(e) {
         setInputText(e.target.value)
     }
 
@@ -18,7 +18,7 @@ function AddTask({ addTask }) {
         <Input.Search
             placeholder='I want to...'
             onSearch={onEnter}
-            onChange={handlerOnEdit}
+            onChange={OnEdit}
             enterButton='Add'
             value={inputText}
         />
