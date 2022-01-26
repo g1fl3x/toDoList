@@ -1,12 +1,16 @@
-import SortingButton from './SortingButton';
-import { Typography, Row, Col, Space, Radio } from 'antd';
+import { Typography, Row, Col, Space, Radio, Switch } from 'antd';
+import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 
 const { Text } = Typography
 
-function Sorting({ showTasksWithOption, sortTasks, sortType }) {
+function Sorting({ showTasksWithOption, sortTasks }) {
 
     function onOptionSelect(e) {
         showTasksWithOption(e.target.value.toLowerCase())
+    }
+
+    function onSortClick(state) {
+        sortTasks(state ? "asc" : "desc")
     }
 
     return (
@@ -23,14 +27,12 @@ function Sorting({ showTasksWithOption, sortTasks, sortType }) {
                     <Text>
                         Sort:
                     </Text>
-                    {["asc", "desc"]
-                        .map((el, i) =>
-                            <SortingButton
-                                key={i}
-                                type={el}
-                                selected={el === sortType ? true : false}
-                                sortTasks={sortTasks}
-                            />)}
+                    <Switch
+                        checkedChildren={<ArrowUpOutlined />}
+                        unCheckedChildren={<ArrowDownOutlined />}
+                        defaultChecked
+                        onClick={onSortClick}
+                    />
                 </Space>
             </Col>
         </Row>

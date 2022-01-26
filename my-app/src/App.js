@@ -145,7 +145,6 @@ function App() {
 				<Sorting
 					showTasksWithOption={showTasksWithOption}
 					sortTasks={sortTasks}
-					sortType={sortType}
 				/>
 
 				<main>
