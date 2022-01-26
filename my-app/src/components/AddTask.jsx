@@ -3,22 +3,16 @@ import { useState } from 'react';
 
 function AddTask({ addTask }) {
 
-    const [inputValue, setInputValue] = useState('')
-
-    function handleKeyDown(event) {
-        if (event.keyCode === 13) {
-            const filteredInputText = inputValue.trim()
-            if (filteredInputText !== '')
-                addTask(filteredInputText);
-            setInputValue('')
-        }
+    function onEnter(text) {
+        addTask(text)
     }
 
     return (
-        <Input
-            value={inputValue}
+        <Input.Search
             placeholder='I want to...'
-            onKeyDown={handleKeyDown}
+            onSearch={onEnter}
+            allowClear
+            enterButton='Add'
         />
     );
 }
