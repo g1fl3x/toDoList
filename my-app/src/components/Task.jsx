@@ -30,18 +30,15 @@ function Task({ post, deleteTask, updateTask }) {
 
 	function handleOnTaskEdit(taskText) {
 		const clearedText = taskText.trim()
-		if (clearedText !== "") {
-			setInputText(clearedText)
+		if (clearedText === "") return message.error('Task text must not be empty', 3)
+		setInputText(clearedText)
 
-			// onError
-			updateTask(post.uuid, { name: clearedText }).then(change => {
-				if (!change) {
-					setInputText(post.name)
-				}
-			})
-		} else {
-			message.error('Task text must not be empty', 3)
-		}
+		// onError
+		updateTask(post.uuid, { name: clearedText }).then(response => {
+			if (!response.data) {
+				setInputText(post.name)
+			}
+		})
 	}
 
 	function onCheckboxClicked() {

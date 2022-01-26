@@ -14,19 +14,16 @@ axios.interceptors.response.use(
 	(err) => {
 		const response = err.request.response
 		let errorText
-		if (response === undefined) {
+		if (!response) {
 			errorText = "Internal Error"
 		}
 		try {
 			errorText = JSON.parse(response).message
 		} catch (e) {
-			errorText = "Json parse error"
-		}
-		if (errorText === undefined) {
-			return "Json doesn't contain error text"
+			errorText = "Json doesn't contain error text"
 		}
 		message.error(`${errorText}`, 3)
-		throw new Error(err);
+		return err
 	});
 
 function App() {
@@ -62,19 +59,18 @@ function App() {
 
 	// tasks
 	async function getTasks(filterBy, order, pp, page) {
-		try {
-			const response = await axios.get(`${apiUrl}/tasks/${userId}`, {
-				params: {
-					filterBy: filterBy === 'all' ? '' : filterBy,
-					order: order,
-					pp: pp,
-					page: page
-				}
-			})
-			return response
-		} catch (err) {
-			return { data: { count: 0, tasks: [] } }
-		}
+		const response = await axios.get(`${apiUrl}/tasks/${userId}`, {
+			params: {
+				filterBy: filterBy === 'all' ? '' : filterBy,
+				order: order,
+				pp: pp,
+				page: page
+			}
+		})
+
+		// no response
+		if (!response.data) return { data: { count: 0, tasks: [] } }
+		return response
 	}
 
 	async function deleteTask(taskId) {
@@ -92,13 +88,9 @@ function App() {
 	}
 
 	async function updateTask(taskId, editedTask) {
-		try {
-			await axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask)
-			setUpdate([])
-			return true
-		} catch (e) {
-			return false
-		}
+		const response = await axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask)
+		setUpdate([])
+		return response
 	}
 
 
