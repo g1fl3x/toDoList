@@ -6,9 +6,30 @@ import { message, Pagination, Space, Divider } from 'antd'
 
 
 // npm run deploy
+const axios = require('axios')
+
+// errorHandler
+axios.interceptors.response.use(
+	(response) => response,
+	(err) => {
+		const response = err.request.response
+		let errorText
+		if (response === undefined) {
+			errorText = "Internal Error"
+		}
+		try {
+			errorText = JSON.parse(response).message
+		} catch (e) {
+			errorText = "Json parse error"
+		}
+		if (errorText === undefined) {
+			return "Json doesn't contain error text"
+		}
+		message.error(`${errorText}`, 3)
+		return err
+	});
 
 function App() {
-	const axios = require('axios');
 
 	const [tasks, setTasks] = useState([])
 	const [tasksLen, setTasksLen] = useState(0)
@@ -39,25 +60,6 @@ function App() {
 	}, [currentPage, optionsType, sortType, update])
 
 
-	// errors
-	function handlerError(err) {
-		const response = err.request.response
-		let errorText
-		if (response === undefined) {
-			errorText = "Internal Error"
-		}
-		try {
-			errorText = JSON.parse(response).message
-		} catch (e) {
-			errorText = "Json parse error"
-		}
-		if (errorText === undefined) {
-			return "Json doesn't contain error text"
-		}
-		message.error(errorText, 3)
-	}
-
-
 	// tasks
 	async function getTasks(filterBy, order, pp, page) {
 		try {
@@ -70,18 +72,13 @@ function App() {
 				}
 			})
 			return response
-		} catch (err) {
-			handlerError(err)
-			return { data: [] }
+		} catch(err) {
+			return {data: {count: 0, tasks: []}}
 		}
 	}
 
 	async function deleteTask(taskId) {
-		try {
-			await axios.delete(`${apiUrl}/task/${userId}/${taskId}`)
-		} catch (err) {
-			handlerError(err)
-		}
+		await axios.delete(`${apiUrl}/task/${userId}/${taskId}`)
 		setUpdate([])
 	}
 
@@ -90,11 +87,7 @@ function App() {
 			done: false,
 			name: text,
 		}
-		try {
-			await axios.post(`${apiUrl}/task/${userId}`, newTask)
-		} catch (err) {
-			handlerError(err)
-		}
+		await axios.post(`${apiUrl}/task/${userId}`, newTask)
 		setUpdate([])
 	}
 
@@ -105,11 +98,7 @@ function App() {
 		} else {
 			editedTask = { name: text }
 		}
-		try {
-			await axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask)
-		} catch (err) {
-			handlerError(err)
-		}
+		await axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask)
 		setUpdate([])
 	}
 
