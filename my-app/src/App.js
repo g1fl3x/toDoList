@@ -98,18 +98,13 @@ function App() {
 		setUpdate([])
 	}
 
-	async function editTask(taskId, text) {
-		const editedTask = { name: text }
-		try {
-			await axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask)
-		} catch (err) {
-			handlerError(err)
+	async function updateTask(taskId, text = null, complete = null) {
+		let editedTask
+		if (text === null) {
+			editedTask = { done: complete }
+		} else {
+			editedTask = { name: text }
 		}
-		setUpdate([])
-	}
-
-	async function completeTask(taskId, complete) {
-		const editedTask = { done: complete }
 		try {
 			await axios.patch(`${apiUrl}/task/${userId}/${taskId}`, editedTask)
 		} catch (err) {
@@ -150,9 +145,8 @@ function App() {
 				<main>
 					<TasksList
 						posts={tasks}
-						editTask={editTask}
+						updateTask={updateTask}
 						deleteTask={deleteTask}
-						completeTask={completeTask}
 					/>
 				</main>
 

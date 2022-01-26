@@ -1,7 +1,7 @@
 import Task from './Task.jsx'
 import { Row, Col } from 'antd';
 
-function TasksList({ posts, editTask, deleteTask, completeTask }) {
+function TasksList({ posts, updateTask, deleteTask }) {
 
     return (
         <Row gutter={[0, 2]}>
@@ -10,9 +10,8 @@ function TasksList({ posts, editTask, deleteTask, completeTask }) {
                     <Task
                         post={post}
                         key={post.uuid}
-                        editTask={editTask}
+                        updateTask={updateTask}
                         deleteTask={deleteTask}
-                        completeTask={completeTask}
                     />
                 </Col>)}
         </Row>

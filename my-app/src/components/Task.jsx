@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 const { Text } = Typography;
 
-function Task({ post, editTask, deleteTask, completeTask }) {
+function Task({ post, deleteTask, updateTask }) {
 	const [taskText, setTaskText] = useState(post.name);
 	let isTaskCompleted = post.done
 
@@ -32,13 +32,13 @@ function Task({ post, editTask, deleteTask, completeTask }) {
 		const clearedText = taskText.trim()
 		if (clearedText !== "") {
 			setTaskText(clearedText)
-			editTask(post.uuid, clearedText)
+			updateTask(post.uuid, clearedText)
 		}
 	}
 
 	function onCheckboxClicked() {
 		isTaskCompleted = !isTaskCompleted
-		completeTask(post.uuid, isTaskCompleted)
+		updateTask(post.uuid, null, isTaskCompleted)
 	}
 
 	return (
