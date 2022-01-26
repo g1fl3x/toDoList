@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles/index.css';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.dark.css'
 import App from './App';
 
 ReactDOM.render(
