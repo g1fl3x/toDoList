@@ -156,7 +156,7 @@ function App() {
 					/>
 				</main>
 
-				<Divider>
+				<Divider dashed={true}>
 					<Pagination
 						total={tasksLen}
 						pageSize={tasksOnPage}
