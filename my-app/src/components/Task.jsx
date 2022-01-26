@@ -29,8 +29,11 @@ function Task({ post, editTask, deleteTask, completeTask }) {
 	}
 
 	function handleOnTaskEdit(taskText) {
-		setTaskText(taskText)
-		editTask(post.uuid, taskText)
+		const clearedText = taskText.trim()
+		if (clearedText !== "") {
+			setTaskText(clearedText)
+			editTask(post.uuid, clearedText)
+		}
 	}
 
 	function onCheckboxClicked() {
