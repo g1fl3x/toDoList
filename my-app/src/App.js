@@ -44,12 +44,12 @@ function App() {
 		const response = err.request.response
 		let errorText
 		if (response === undefined) {
-			return "Internal Error"
+			errorText = "Internal Error"
 		}
 		try {
 			errorText = JSON.parse(response).message
 		} catch (e) {
-			return "Json parse error"
+			errorText = "Json parse error"
 		}
 		if (errorText === undefined) {
 			return "Json doesn't contain error text"
