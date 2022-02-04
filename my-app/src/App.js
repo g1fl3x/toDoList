@@ -3,7 +3,7 @@ import AddTask from "./components/AddTask";
 import Sorting from "./components/Sorting";
 import TasksList from "./components/TasksList";
 import { message, Pagination, Space, Divider } from 'antd'
-
+import { useNavigate } from "react-router-dom";
 
 // npm run deploy
 const axios = require('axios')
@@ -27,7 +27,7 @@ axios.interceptors.response.use(
 	});
 
 function App() {
-
+	const navigate = useNavigate('/')
 	const [tasks, setTasks] = useState([])
 	const [tasksLen, setTasksLen] = useState(0)
 	const [optionsType, setOptionsType] = useState('all')
@@ -36,10 +36,13 @@ function App() {
 	const [update, setUpdate] = useState([])
 
 	const tasksOnPage = 5
-	const apiUrl = 'https://todo-api-learning.herokuapp.com/v1';
+	// const apiUrl = 'https://todo-api-learning.herokuapp.com/v1';
+	const apiUrl = 'http://127.0.0.1:3000/api'
+	// const apiUrl = 'https://my-todo-app228.herokuapp.com/api'
 	const userId = 1
 
 	useEffect(async () => {
+		//navigate('/login')
 		const response = await getTasks(optionsType, sortType, tasksOnPage, currentPage)
 		let updatedPagesCount = Math.ceil(response.data.count / tasksOnPage)
 
@@ -61,7 +64,7 @@ function App() {
 	async function getTasks(filterBy, order, pp, page) {
 		const response = await axios.get(`${apiUrl}/tasks/${userId}`, {
 			params: {
-				filterBy: filterBy === 'all' ? '' : filterBy,
+				filterBy: filterBy,
 				order: order,
 				pp: pp,
 				page: page
@@ -111,9 +114,6 @@ function App() {
 
 	return (
 		<div className="centered centered_styles">
-			<Divider>
-				<h2>ToDo</h2>
-			</Divider>
 			<Space direction="vertical" style={{ width: '100%' }}>
 				<AddTask addTask={addTask} />
 
@@ -141,6 +141,7 @@ function App() {
 				</Divider>
 			</Space>
 		</div>
+
 	);
 }
 

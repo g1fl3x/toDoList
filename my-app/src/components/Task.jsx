@@ -47,7 +47,7 @@ function Task({ post, deleteTask, updateTask }) {
 	}
 
 	return (
-		<Row justify="space-around" align="top" >
+		<Row align="top" >
 			<Col flex="36px">
 				<Checkbox
 					className="post__apply-checkbox"
@@ -58,8 +58,8 @@ function Task({ post, deleteTask, updateTask }) {
 			<Col flex="auto">
 				<Text editable={{
 					onChange: handleOnTaskEdit,
-					triggerType: 'text'
-				}}>
+					triggerType: 'text'}}
+				>
 					{inputText}
 				</Text>
 			</Col>
